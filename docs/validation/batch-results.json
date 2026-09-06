@@ -1,0 +1,157 @@
+{
+  "versions": {
+    "simulationVersion": "0.1.0",
+    "behaviorVersion": "0.1.0",
+    "worldVersion": "0.1.0",
+    "metricVersion": "0.1.0",
+    "experimentVersion": "0.1.0"
+  },
+  "runtime": "v22.23.1",
+  "units": "Abstract model units; single-machine timings, not browser FPS.",
+  "rows": [
+    {
+      "seed": 518394,
+      "recruitment": true,
+      "ticks": 6000,
+      "food": 1887.964,
+      "allocation": {
+        "A": 44,
+        "B": 54
+      },
+      "recruitments": 496,
+      "firstDiscoveryTick": 111,
+      "elapsedMs": 201.4
+    },
+    {
+      "seed": 518394,
+      "recruitment": false,
+      "ticks": 6000,
+      "food": 434.76,
+      "allocation": {
+        "A": 7,
+        "B": 10
+      },
+      "recruitments": 0,
+      "firstDiscoveryTick": 111,
+      "elapsedMs": 46.7
+    },
+    {
+      "seed": 718923,
+      "recruitment": true,
+      "ticks": 6000,
+      "food": 1972.136,
+      "allocation": {
+        "A": 20,
+        "B": 65
+      },
+      "recruitments": 376,
+      "firstDiscoveryTick": 77,
+      "elapsedMs": 178.2
+    },
+    {
+      "seed": 718923,
+      "recruitment": false,
+      "ticks": 6000,
+      "food": 349.71,
+      "allocation": {
+        "A": 8,
+        "B": 11
+      },
+      "recruitments": 0,
+      "firstDiscoveryTick": 77,
+      "elapsedMs": 35.1
+    },
+    {
+      "seed": 42,
+      "recruitment": true,
+      "ticks": 6000,
+      "food": 1815.07,
+      "allocation": {
+        "A": 47,
+        "B": 56
+      },
+      "recruitments": 534,
+      "firstDiscoveryTick": 107,
+      "elapsedMs": 162.1
+    },
+    {
+      "seed": 42,
+      "recruitment": false,
+      "ticks": 6000,
+      "food": 419.02,
+      "allocation": {
+        "A": 3,
+        "B": 12
+      },
+      "recruitments": 0,
+      "firstDiscoveryTick": 107,
+      "elapsedMs": 34.3
+    },
+    {
+      "seed": 104,
+      "recruitment": true,
+      "ticks": 6000,
+      "food": 2049.9,
+      "allocation": {
+        "A": 16,
+        "B": 76
+      },
+      "recruitments": 360,
+      "firstDiscoveryTick": 72,
+      "elapsedMs": 180.7
+    },
+    {
+      "seed": 104,
+      "recruitment": false,
+      "ticks": 6000,
+      "food": 362.44,
+      "allocation": {
+        "A": 7,
+        "B": 11
+      },
+      "recruitments": 0,
+      "firstDiscoveryTick": 72,
+      "elapsedMs": 35.1
+    },
+    {
+      "seed": 2026,
+      "recruitment": true,
+      "ticks": 6000,
+      "food": 2122.366,
+      "allocation": {
+        "A": 29,
+        "B": 62
+      },
+      "recruitments": 343,
+      "firstDiscoveryTick": 94,
+      "elapsedMs": 174.7
+    },
+    {
+      "seed": 2026,
+      "recruitment": false,
+      "ticks": 6000,
+      "food": 412.17,
+      "allocation": {
+        "A": 12,
+        "B": 7
+      },
+      "recruitments": 0,
+      "firstDiscoveryTick": 94,
+      "elapsedMs": 34.9
+    }
+  ],
+  "performance": [
+    {
+      "population": 100,
+      "ticks": 1000,
+      "elapsedMs": 15.1,
+      "msPerTick": 0.015
+    },
+    {
+      "population": 1000,
+      "ticks": 1000,
+      "elapsedMs": 168.2,
+      "msPerTick": 0.168
+    }
+  ]
+}

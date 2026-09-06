@@ -1,0 +1,40 @@
+{
+  "name": "bee-aserdargun-com",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0 <23"
+  },
+  "packageManager": "npm@10.9.8",
+  "scripts": {
+    "dev": "next dev --webpack --hostname 127.0.0.1 --port 3017",
+    "dev:codex": "node scripts/dev.mjs",
+    "stop:codex": "node scripts/stop-dev.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:environment": "node --test scripts/environment.test.mjs",
+    "test:e2e": "playwright test",
+    "build": "next build --webpack",
+    "preview": "node scripts/serve.mjs",
+    "validate:codex": "node scripts/validate.mjs",
+    "experiment:batch": "tsx scripts/batch.ts"
+  },
+  "dependencies": {
+    "@fontsource/dm-mono": "^5.3.0",
+    "@fontsource/dm-sans": "^5.3.0",
+    "lucide-react": "^0.577.0",
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vitest": "5.0.0"
+  }
+}

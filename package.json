@@ -15,7 +15,8 @@
     "test": "vitest run",
     "test:environment": "node --test scripts/environment.test.mjs",
     "test:e2e": "playwright test",
-    "build": "next build --webpack",
+    "build": "next build --webpack && node scripts/write-release.mjs",
+    "verify:artifact": "node scripts/verify-artifact.mjs",
     "preview": "node scripts/serve.mjs",
     "validate:codex": "node scripts/validate.mjs",
     "experiment:batch": "tsx scripts/batch.ts"

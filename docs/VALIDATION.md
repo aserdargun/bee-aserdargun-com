@@ -1,6 +1,6 @@
 # V0.1 validation evidence
 
-Validated locally on 2026-09-06 with Node 22.23.1, npm 10.9.8, Next.js 16.3.4, Vitest 5.0.0 and Playwright 1.63.0. This records local verification; a remote CI or production deployment has not run.
+Validated locally on 2026-09-06 with Node 22.23.1, npm 10.9.8, Next.js 16.3.4, Vitest 5.0.0 and Playwright 1.63.0. This records the initial local verification, before remote publication. Subsequent publication follows the [deployment contract](DEPLOYMENT.md).
 
 ## Required behavioral proof
 
@@ -69,4 +69,4 @@ Communication matching is currently O(bees × active dances); no separate commun
 
 ## Delivery boundary
 
-The output is a static local application with a CI configuration and Azure-compatible static configuration. No accounts, database, backend, LLM agents, domain changes or external publication were introduced. Quorum, nest choice, dynamic roles and thermoregulation are explicitly future modules. Final working files remain local and uncommitted.
+The initial slice produced a static application with a CI configuration and Azure-compatible static configuration. It was delivered locally before the user separately authorized GitHub and Azure publication. No accounts, database, backend or LLM agents were introduced. Quorum, nest choice, dynamic roles and thermoregulation are explicitly future modules.

@@ -2,6 +2,8 @@
 
 Bal arılarında yerel keşif, dansla bilgi aktarımı ve merkezi koordinasyon olmadan kaynak dağılımını inceleyen, Türkçe/İngilizce deney laboratuvarı. V0.1, **Apis mellifera** esinli, deterministik bir eğitim modelidir; biyolojik tahmin aracı değildir.
 
+[BEE laboratuvarını aç](https://agreeable-forest-01a27f803.6.azurestaticapps.net) · [GitHub](https://github.com/aserdargun/bee-aserdargun-com)
+
 ## Yerelde çalıştırma
 
 Node 22.12+ / 22.x ve npm 10 kullanın. macOS/Linux ortamında `lsof` gerekir.
@@ -28,7 +30,7 @@ npm run build
 npm run preview
 ```
 
-Önizleme **http://127.0.0.1:4017** adresindedir. Durdurmak için `BEE_PORT=4017 npm run stop:codex` kullanın. Üretim dosyaları `out/` içindedir. Azure Static Web Apps yapılandırması hazırdır; yayımlama işlemi veya deploy workflow'u kurulmadı.
+Önizleme **http://127.0.0.1:4017** adresindedir. Durdurmak için `BEE_PORT=4017 npm run stop:codex` kullanın. Üretim dosyaları `out/` içindedir. GitHub `main` dalından Azure Static Web Apps Free yayını için [dağıtım sözleşmesi](docs/DEPLOYMENT.md) tanımlıdır; canlı sürüm `/release.json` üzerinden commit ile doğrulanır.
 
 ## V0.1 ile yapılabilenler
 
@@ -49,6 +51,7 @@ npm run preview
 - [A–H doğrulama matrisi, 33 test ve eşleştirilmiş deney sonuçları](docs/VALIDATION.md)
 - [Görsel referans ve uygulama karşılaştırması](docs/design/VERIFICATION.md)
 - [Sonraki deneyler ve genişleme sınırları](docs/ROADMAP.md)
+- [GitHub ve Azure yayın sözleşmesi](docs/DEPLOYMENT.md)
 
 Headless deneyleri tekrar çalıştırmak için `npm run experiment:batch` kullanın. Sonuç `output/batch-results.json` dosyasına yazılır. Teslim sırasında ölçülen sürüm [docs/validation/batch-results.json](docs/validation/batch-results.json) içinde saklıdır. Ölçülen süreler makineye bağlıdır; seed'li simülasyon sonuçları aynı model ve çalışma ortamında tekrarlanır.
 

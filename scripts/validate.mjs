@@ -8,7 +8,7 @@ async function run(command, args) {
     child.on('error', reject); child.on('exit', code => code === 0 ? resolve() : reject(new Error(`${command} ${args.join(' ')} failed: ${code}`)));
   });
 }
-for (const step of ['typecheck', 'test', 'test:environment', 'build', 'test:e2e']) await run('npm', ['run', step]);
+for (const step of ['typecheck', 'test', 'test:environment', 'build', 'verify:artifact', 'test:e2e']) await run('npm', ['run', step]);
 await access('out/index.html'); await access('out/staticwebapp.config.json');
 await run('git', ['diff', '--check']);
 console.log('BEE validation complete: kernel, environment, static build and rendered browser workflows.');

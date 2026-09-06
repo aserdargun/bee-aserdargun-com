@@ -1,8 +1,9 @@
 'use client';
-import { Bug, Info, LocateFixed, X } from 'lucide-react';
+import { Bug, LocateFixed, X } from 'lucide-react';
 import type { Language } from '../experiments/catalog';
 import type { BeeState, WorldSnapshot } from '../simulation/types';
 import { ThroughputChart } from './ThroughputChart';
+import { TermHelp } from './TermHelp';
 
 const states: Record<BeeState, { tr: string; en: string }> = {
   Resting: { tr: 'Kovanda bekliyor', en: 'Resting in hive' }, Searching: { tr: 'Arıyor', en: 'Searching' },
@@ -10,8 +11,8 @@ const states: Record<BeeState, { tr: string; en: string }> = {
   Returning: { tr: 'Kovana dönüyor', en: 'Returning' }, Dancing: { tr: 'Dans ediyor', en: 'Dancing' },
   ObservingDance: { tr: 'Dansı gözlüyor', en: 'Observing dance' },
 };
-interface Props { world: WorldSnapshot; language: Language; selected: number | null; onSelect: (id: number | null) => void; follow: boolean; onFollow: () => void; onNotes: () => void }
-export function ColonyInspector({ world, language, selected, onSelect, follow, onFollow, onNotes }: Props) {
+interface Props { world: WorldSnapshot; language: Language; selected: number | null; onSelect: (id: number | null) => void; follow: boolean; onFollow: () => void }
+export function ColonyInspector({ world, language, selected, onSelect, follow, onFollow }: Props) {
   const t = (en: string, tr: string) => language === 'en' ? en : tr;
   const m = world.metrics, n = (v: number, digits = 0) => v.toLocaleString(language === 'tr' ? 'tr-TR' : 'en-GB', { maximumFractionDigits: digits });
   const sum = m.allocation.A + m.allocation.B;
@@ -22,21 +23,21 @@ export function ColonyInspector({ world, language, selected, onSelect, follow, o
       <label className="bee-select-label" htmlFor="bee-select">{t('Select an individual', 'Bir birey seçin')}</label>
       <select id="bee-select" className="bee-select" value={bee.id} onChange={e => onSelect(Number(e.target.value))}>{world.bees.map(b => <option key={b.id} value={b.id}>#{b.id} · {states[b.state][language]}</option>)}</select>
       <div className="bee-state"><Bug size={26} strokeWidth={1.3} /><span>{states[bee.state][language]}</span></div>
-      <dl className="metric-list"><div><dt>{t('Task', 'Görev')}</dt><dd>{bee.role === 'Scout' ? t('Scout', 'Keşifçi') : t('Forager', 'Toplayıcı')}</dd></div>
-        <div><dt>{t('Energy proxy', 'Enerji göstergesi')}</dt><dd>{n(bee.energy)}%</dd></div>
+      <dl className="metric-list"><div><dt>{t('Task', 'Görev')}<TermHelp term="scouts" language={language} /></dt><dd>{bee.role === 'Scout' ? t('Scout', 'Keşifçi') : t('Forager', 'Toplayıcı')}</dd></div>
+        <div><dt>{t('Energy proxy', 'Enerji göstergesi')}<TermHelp term="energy" language={language} /></dt><dd>{n(bee.energy)}%</dd></div>
         <div><dt>{t('Successful trips', 'Başarılı sefer')}</dt><dd>{bee.experience}</dd></div>
         <div><dt>{t('Last dancer seen', 'Son izlediği dansçı')}</dt><dd>{bee.observedDancer ? `#${bee.observedDancer}` : '—'}</dd></div>
       </dl>
-      <section className="knowledge"><h3>{t('Private knowledge', 'Bireysel bilgi')}</h3>
+      <section className="knowledge"><h3 className="control-caption">{t('Private knowledge', 'Bireysel bilgi')}<TermHelp term="memory" language={language} /></h3>
         {!bee.memory.length && <p>{t('No known food. This bee cannot see the colony’s resource map.', 'Bilinen besin yok. Bu arı koloninin kaynak haritasını göremez.')}</p>}
         {bee.memory.map(memory => <div className="memory-entry" key={memory.patchId}><strong>{t('Source', 'Kaynak')} {memory.patchId}</strong><span>{memory.source === 'visit' ? t('Personal visit', 'Kendi ziyareti') : t('Dance report', 'Dans bildirimi')}</span><small>{t('Estimated quality', 'Tahmini kalite')} {memory.quality.toFixed(2)} · {t('expires in', 'kalan süre')} {Math.max(0, (memory.expiresAt - world.tick) / 10).toFixed(0)}s</small></div>)}
       </section>
       {signal && <section className="signal-inspector"><h3>{t('Encoded in this dance', 'Bu dansta kodlanan')}</h3>
-        <dl className="metric-list"><div><dt>{t('Direction¹', 'Yön¹')}</dt><dd>{((signal.direction * 180 / Math.PI + 360) % 360).toFixed(0)}°</dd></div>
-          <div><dt>{t('Distance', 'Mesafe')}</dt><dd>{signal.distance.toFixed(0)} u</dd></div>
-          <div><dt>{t('Duration code²', 'Süre kodu²')}</dt><dd>{signal.durationCode.toFixed(2)} s</dd></div>
-          <div><dt>{t('Utility', 'Fayda')}</dt><dd>{signal.utility.toFixed(3)}</dd></div>
-          <div><dt>{t('Expires in', 'Kalan süre')}</dt><dd>{((signal.expiresAt - world.tick) / 10).toFixed(1)} s</dd></div></dl>
+        <dl className="metric-list"><div><dt>{t('Direction¹', 'Yön¹')}<TermHelp term="direction" language={language} /></dt><dd>{((signal.direction * 180 / Math.PI + 360) % 360).toFixed(0)}°</dd></div>
+          <div><dt>{t('Distance', 'Mesafe')}<TermHelp term="distance" language={language} /></dt><dd>{signal.distance.toFixed(0)} u</dd></div>
+          <div><dt>{t('Duration code²', 'Süre kodu²')}<TermHelp term="duration" language={language} /></dt><dd>{signal.durationCode.toFixed(2)} s</dd></div>
+          <div><dt>{t('Utility', 'Fayda')}<TermHelp term="utility" language={language} /></dt><dd>{signal.utility.toFixed(3)}</dd></div>
+          <div><dt>{t('Expires in', 'Kalan süre')}<TermHelp term="lifetime" language={language} /></dt><dd>{((signal.expiresAt - world.tick) / 10).toFixed(1)} s</dd></div></dl>
         <p className="control-note">{t('¹ Clockwise from east. ² Distance ÷ 250; educational code, not a biological calibration.', '¹ Doğudan saat yönünde. ² Mesafe ÷ 250; eğitsel kod, biyolojik kalibrasyon değildir.')}</p>
       </section>}
       <button className={`inspect-button ${follow ? 'selected' : ''}`} aria-pressed={follow} onClick={onFollow}><LocateFixed size={16} />{follow ? t('Following bee', 'Arı izleniyor') : t('Follow bee', 'Arıyı takip et')}</button>
@@ -44,14 +45,14 @@ export function ColonyInspector({ world, language, selected, onSelect, follow, o
     </> : <>
       <h2>{t('The colony', 'Koloni')}</h2><p className="population-count">{world.bees.length} {t('bees', 'arı')}</p>
       <div className="primary-metric" data-testid="throughput">{n(m.throughput, 1)}</div>
-      <div className="metric-unit">{t('food units / model min', 'besin birimi / model dk')}</div>
+      <div className="metric-unit control-caption">{t('food units / model min', 'besin birimi / model dk')}<TermHelp term="throughput" language={language} /></div>
       <dl className="metric-list">
-        <div><dt>{t('Food collected', 'Toplanan besin')}</dt><dd data-testid="food-collected">{n(m.foodCollected, 1)}</dd></div>
-        <div><dt>{t('First discovery', 'İlk keşif')}</dt><dd>{m.firstDiscoveryTick === null ? '—' : `${(m.firstDiscoveryTick / 10).toFixed(1)} s`}</dd></div>
-        <div><dt>{t('Scouts in flight', 'Uçuştaki keşifçiler')}</dt><dd>{m.activeScouts}</dd></div>
-        <div><dt>{t('Recruited foragers', 'Katılan toplayıcılar')}</dt><dd>{m.recruitedForagers}</dd></div>
+        <div><dt>{t('Food collected', 'Toplanan besin')}<TermHelp term="food" language={language} /></dt><dd data-testid="food-collected">{n(m.foodCollected, 1)}</dd></div>
+        <div><dt>{t('First discovery', 'İlk keşif')}<TermHelp term="discovery" language={language} /></dt><dd>{m.firstDiscoveryTick === null ? '—' : `${(m.firstDiscoveryTick / 10).toFixed(1)} s`}</dd></div>
+        <div><dt>{t('Scouts in flight', 'Uçuştaki keşifçiler')}<TermHelp term="activeScouts" language={language} /></dt><dd>{m.activeScouts}</dd></div>
+        <div><dt>{t('Recruited foragers', 'Katılan toplayıcılar')}<TermHelp term="recruited" language={language} /></dt><dd>{m.recruitedForagers}</dd></div>
       </dl>
-      <section className="allocation"><h3>{t('Resource allocation', 'Kaynak dağılımı')}<button className="info-button" aria-label={t('Metric definitions', 'Ölçüm tanımları')} onClick={onNotes}><Info size={14} /></button></h3>
+      <section className="allocation"><h3>{t('Resource allocation', 'Kaynak dağılımı')}<TermHelp term="allocation" language={language} /></h3>
         {(['A', 'B'] as const).map(id => <div className={`allocation-row ${id.toLowerCase()}`} key={id}><span>{id}</span><div className="allocation-track"><span style={{ width: `${sum ? m.allocation[id] / sum * 100 : 0}%` }} /></div><span>{sum ? Math.round(m.allocation[id] / sum * 100) : 0}%</span></div>)}
         <p className="control-note">{sum ? t(`${sum} source-directed flights`, `${sum} kaynağa yönelik uçuş`) : t('No source-directed flights yet.', 'Henüz kaynağa yönelik uçuş yok.')}</p>
       </section>

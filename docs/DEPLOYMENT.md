@@ -11,6 +11,7 @@ GitHub-first publication was explicitly authorized, followed by deployment to **
 | Static Web App | `swa-bee-aserdargun-com` |
 | Region / tier | West Europe / Free |
 | Generated hostname | [agreeable-forest-01a27f803.6.azurestaticapps.net](https://agreeable-forest-01a27f803.6.azurestaticapps.net) |
+| Existing public address | [bee.aserdargun.com](https://bee.aserdargun.com), Azure binding verified `Ready` on 2026-09-06 |
 | Static artifact | `out/` |
 | Workflow | `.github/workflows/deploy-swa-bee-aserdargun-com.yml` |
 | Secret name | `AZURE_STATIC_WEB_APPS_API_TOKEN_SWA_BEE_ASERDARGUN_COM` |
@@ -20,7 +21,7 @@ The original application was published to GitHub in commit `9e9319b`, with valid
 
 The workflow pins official actions to immutable commits, installs from the lockfile, runs kernel/environment/browser checks, verifies the prebuilt static artifact, and uploads it without a server build or API. This follows Microsoft's [prebuilt artifact configuration](https://learn.microsoft.com/en-us/azure/static-web-apps/build-configuration#skip-building-front-end-app). Only the repository-specific deployment secret is used, and it is transferred directly from Azure to GitHub without printing or writing its value.
 
-`out/release.json` records repository, commit, branch, working-tree status, application version and build time. Production verification requires the live record to match the workflow commit, then runs all 14 desktop/mobile browser scenarios against the generated Azure hostname. Model seed/tick determinism is independent of this deployment timestamp.
+`out/release.json` records repository, commit, branch, working-tree status, application version and build time. Production verification requires the live record to match the workflow commit, then runs all 20 desktop/mobile browser scenarios against the generated Azure hostname, including bilingual term help, glossary search and experiment learning checks. Model seed/tick determinism is independent of this deployment timestamp.
 
 To run the browser suite against the verified production URL:
 
@@ -30,4 +31,4 @@ BEE_BASE_URL=https://agreeable-forest-01a27f803.6.azurestaticapps.net npm run te
 
 The environment variable disables the temporary local test server. Tests affect only browser-local simulation state and do not write server data.
 
-Domain binding is a separate operation. This deployment uses the Azure-generated hostname and leaves the custom-domain list empty. DNS and `bee.aserdargun.com` are outside the current publication step.
+The initial deployment used only the Azure-generated hostname. The existing `bee.aserdargun.com` binding is now `Ready` on this same app. Routine releases reuse that binding and verify both hosts; DNS and domain-configuration changes require a separate request. The app currently reports provider `GitHub`, repository `aserdargun/bee-aserdargun-com` and branch `main`; the workflow listed above remains its only active Azure deployment workflow.

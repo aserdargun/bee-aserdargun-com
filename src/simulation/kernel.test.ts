@@ -62,7 +62,7 @@ describe('mandatory first vertical slice A–H', () => {
       expect(a.metrics().allocation).not.toEqual(b.metrics().allocation);
     }
     expect(onTotal).toBeGreaterThan(offTotal);
-  });
+  }, 30000);
   it('G: removal leaves private knowledge stale, then failed visits alter allocation', () => {
     const sim = new Simulation(); sim.stepMany(5000);
     const before = sim.snapshot(); expect(before.metrics.deliveredByPatch.B).toBeGreaterThan(0);
@@ -134,5 +134,54 @@ describe('scientific and replay boundaries', () => {
     const c = defaultConfig(); c.behavior.recruitmentStrength = 0;
     const sim = new Simulation(c); sim.stepMany(3000);
     expect(sim.metrics().dances).toBeGreaterThan(0); expect(sim.metrics().recruitments).toBe(0);
+  });
+});
+
+describe('portable run integrity', () => {
+  it('rejects unimplemented fields instead of silently changing the meaning of a replay', () => {
+    const run = new Simulation().exportRun();
+    const invalid = [
+      { ...run, migration: 'automatic' },
+      { ...run, parameters: { ...run.parameters, wind: 1 } },
+      { ...run, parameters: { ...run.parameters, behavior: { ...run.parameters.behavior, odor: true } } },
+      { ...run, parameters: { ...run.parameters, patches: run.parameters.patches.map(p => ({ ...p, obstacle: true })) } },
+      { ...run, parameters: { ...run.parameters, experimentId: ['BEE-003'] } },
+      { ...run, parameters: { ...run.parameters, patches: run.parameters.patches.map(p => ({ ...p, id: [p.id] })) } },
+      { ...run, interventions: [{ tick: 0, type: 'behavior', danceNoise: 0.2, memoryTicks: 100 }] },
+      { ...run, interventions: [{ tick: 0, type: 'patch', patchId: 'A', active: false, amount: 0 }] },
+    ];
+    for (const value of invalid) expect(() => replayRun(value)).toThrow();
+  });
+  it('rejects a bad intervention atomically', () => {
+    const sim = new Simulation(); sim.stepMany(10); const before = sim.snapshot();
+    expect(() => sim.intervene({ tick: 10, type: 'behavior', danceNoise: NaN })).toThrow();
+    expect(sim.snapshot()).toEqual(before);
+    expect(sim.exportRun().interventions).toEqual([]);
+  });
+  it('preserves same-tick intervention order through replay', () => {
+    const sim = new Simulation();
+    sim.intervene({ tick: 0, type: 'patch', patchId: 'B', active: false });
+    sim.intervene({ tick: 0, type: 'patch', patchId: 'B', active: true });
+    sim.stepMany(100);
+    expect(replayRun(sim.exportRun()).snapshot()).toEqual(sim.snapshot());
+  });
+  it('does not label custom policies as replayable standard behavior', () => {
+    const sim = new Simulation(defaultConfig(), { decide: () => ({ type: 'wait' }) });
+    sim.stepMany(50);
+    expect(() => sim.exportRun()).toThrow('Custom behavior');
+  });
+  it('refuses to export headless runs beyond the portable replay limit', () => {
+    const config = defaultConfig(); config.population = 10;
+    const sim = new Simulation(config); sim.stepMany(36001);
+    expect(sim.tickCount).toBe(36001);
+    expect(() => sim.exportRun()).toThrow();
+  });
+  it('enforces the intervention limit without changing the last valid state', () => {
+    const sim = new Simulation();
+    for (let i = 0; i < 200; i++) sim.intervene({ tick: 0, type: 'behavior', danceNoise: i % 2 });
+    const before = sim.snapshot();
+    expect(() => sim.intervene({ tick: 0, type: 'behavior', recruitment: false })).toThrow('200 intervention limit');
+    expect(sim.snapshot()).toEqual(before);
+    expect(replayRun(sim.exportRun()).snapshot()).toEqual(before);
   });
 });

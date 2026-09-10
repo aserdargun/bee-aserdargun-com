@@ -42,13 +42,13 @@ npm run preview
 - Kaynak B'yi kaldırma/geri getirme ve iletişim gürültüsü müdahaleleri; tick damgalı JSON dışa aktarım ve sıfırdan yeniden hesaplanan içe aktarım.
 - Son sekiz dışa aktarım için tarayıcıda yerel geçmiş; hesap, API anahtarı veya veritabanı gerekmez.
 
-İlk açılışta canlı BEE-003 başlar. Bir tahmin seçmek koşuyu tick 0'a döndürüp duraklatır; **Çalıştır** ile deney başlatılır. Hareket azaltma tercihi varsa uygulama başlangıçta duraklar. Seed, arı sayısı ve keşifçi oranı yeni koşu başlatır; dans, gürültü ve kaynak müdahaleleri mevcut koşuya kaydedilir. Reset başlangıç parametrelerine döner.
+İlk açılışta canlı BEE-003 başlar. Bir tahmin seçmek koşuyu tick 0'a döndürüp duraklatır; **Çalıştır** ile deney başlatılır. Hareket azaltma tercihi varsa uygulama başlangıçta ve deney değiştirirken duraklar. Seed, arı sayısı ve keşifçi oranı yeni koşu başlatır; dans, gürültü ve kaynak müdahaleleri mevcut koşuya kaydedilir. Reset başlangıç parametrelerine döner.
 
 ## Kanıt ve belgeler
 
 - [13 bölümlük mimari ve uygulama sözleşmesi](docs/FOUNDATION.md)
 - [Davranış kuralları, formüller, birimler ve tekrar oynatma sınırları](docs/MODEL.md)
-- [A–H doğrulama matrisi, 33 test ve eşleştirilmiş deney sonuçları](docs/VALIDATION.md)
+- [A–H doğrulama matrisi, regresyon kontrolleri ve eşleştirilmiş deney sonuçları](docs/VALIDATION.md)
 - [Görsel referans ve uygulama karşılaştırması](docs/design/VERIFICATION.md)
 - [Sonraki deneyler ve genişleme sınırları](docs/ROADMAP.md)
 - [GitHub ve Azure yayın sözleşmesi](docs/DEPLOYMENT.md)

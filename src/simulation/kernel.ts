@@ -4,7 +4,7 @@ import { defaultConfig } from './config';
 import { WORLD, VERSIONS, type Bee, type BeeBrain, type DanceSignal, type ExperimentRun, type FoodPatch,
   type Intervention, type LocalObservation, type MetricPoint, type Metrics, type ResourceMemory,
   type SimulationConfig, type SimulationEvent, type Vec, type WorldSnapshot } from './types';
-import { validateConfig, validateIntervention } from './validation';
+import { validateConfig, validateIntervention, validateRun } from './validation';
 
 const distance = (a: Vec, b: Vec) => Math.hypot(a.x - b.x, a.y - b.y);
 const clone = <T>(value: T): T => structuredClone(value);
@@ -285,7 +285,12 @@ export class Simulation {
   }
 
   exportRun(): ExperimentRun {
-    return clone({ ...VERSIONS, schemaVersion: 1, lab: 'BEE', species: 'Apis mellifera', seed: this.initial.seed,
+    if (Object.getPrototypeOf(this.brain) !== RuleBasedBeeBrain.prototype || this.brain.decide !== RuleBasedBeeBrain.prototype.decide) {
+      throw new Error('Custom behavior requires its own version and replay factory before export.');
+    }
+    const run: ExperimentRun = clone({ ...VERSIONS, schemaVersion: 1, lab: 'BEE', species: 'Apis mellifera', seed: this.initial.seed,
       tickCount: this.tick, parameters: this.initial, interventions: this.interventions, metrics: this.metrics() });
+    validateRun(run);
+    return run;
   }
 }

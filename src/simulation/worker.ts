@@ -41,7 +41,7 @@ scope.onmessage = ({ data }: MessageEvent<WorkerRequest>) => {
         controlRun.parameters.behavior.recruitment = false;
         controlRun.interventions = controlRun.interventions.map(controlCommand);
         const nextControl = replayRun(controlRun);
-        main = next; control = nextControl; playing = false; workerMs = 0; workerTicks = 0; publish(); send({ type: 'imported', tick: main.tickCount }); break;
+        main = next; control = nextControl; playing = false; workerMs = 0; workerTicks = 0; publish(); send({ type: 'imported', tick: main.tickCount, config: structuredClone(data.run.parameters) }); break;
       }
     }
   } catch (error) { send({ type: 'error', message: error instanceof Error ? error.message : 'Worker failure' }); }

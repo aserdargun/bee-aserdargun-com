@@ -27,8 +27,8 @@ export const experiments: Experiment[] = [
     controlledVariables: ['seed', 'population', 'patches'], independentVariables: ['recruitment'], metrics: ['foodCollected', 'recruitments'], evidence: ['seeley1991', 'dance2023', 'context2019'],
   },
   {
-    id: 'BEE-003', version: '0.1.0', title: { tr: 'Daha iyi besin kazanır mı?', en: 'Better food wins.' },
-    shortTitle: { tr: 'Kaynaklar arasında', en: 'Better food wins' },
+    id: 'BEE-003', version: '0.1.0', title: { tr: 'Daha iyi besin kazanır mı?', en: 'Does better food win?' },
+    shortTitle: { tr: 'Kaynaklar arasında', en: 'Between food sources' },
     goal: { tr: 'Bireysel keşiflerin ortak davranışa dönüşmesini izleyin.', en: 'Watch local discoveries become collective behavior.' },
     question: { tr: 'Uzaktaki daha zengin kaynak, daha çok arıyı çekebilir mi?', en: 'Will a farther, richer source attract more foragers?' },
     predictions: [{ tr: 'Yakındaki kaynak öne çıkar', en: 'The nearer source' }, { tr: 'Zengin kaynak öne çıkar', en: 'The richer source' }],

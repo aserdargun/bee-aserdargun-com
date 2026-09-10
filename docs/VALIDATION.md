@@ -2,9 +2,21 @@
 
 Validated locally on 2026-09-06 with Node 22.23.1, npm 10.9.8, Next.js 16.3.4, Vitest 5.0.0 and Playwright 1.63.0. This records the initial local verification, before remote publication. Subsequent publication follows the [deployment contract](DEPLOYMENT.md).
 
+## September 10 reliability review
+
+The final local `npm run validate:codex` passed on Node 22.23.1: **26 kernel/worker + 3 environment + 36 Chromium browser tests = 65 passing tests**, plus TypeScript, the production static build, artifact verification and `git diff --check`. The full `npm audit --json` returned zero reported vulnerabilities. This review was local; no commit, push or deployment was performed.
+
+New coverage verifies rejection of unknown fields and non-string identifiers, atomic rejection of interventions and imports, ordered same-tick replay, the 200-intervention limit, custom-policy and oversized headless export rejection, paired worker behavior and the 36,000-tick ceiling. The five-seed behavioral test now has an explicit 30-second timeout because its computation exceeded the framework's five-second default under concurrent machine load; its assertions and workload are unchanged.
+
+Browser regressions cover reduced-motion experiment changes, translated seed errors, imported scout proportions above 50%, startup failure and reset recovery, completed-run controls, stale replay notices after reset, and paused-canvas redraw suppression with working camera controls. The learning checks retain their non-mutating tick/export assertions. The mobile layout workflow also checks both languages at 320px and verifies 44px navigation targets; this caught and fixed an 11px Turkish navigation overflow using a two-row menu at narrow widths.
+
+Additional visual and interaction checks against `http://127.0.0.1:4017/` passed at **1536×1024, 1024×768, 390×844 and 320×740** in both languages. Page title/content, absence of framework overlays, console errors/warnings, horizontal overflow, keyboard skip-link focus, one-tick stepping and reset were checked. Screenshots were inspected at all four sizes. These used the repository's Playwright/Chromium runtime because no Browser skill was available. Safari/WebKit, Firefox, real mobile hardware and biological calibration were not verified by this review.
+
+Simulation rules, PRNG draws, world constants, experiment initial conditions and metric formulas are unchanged; schema/model versions retain their existing meanings. Portable exports now enforce the documented replay limits. The internal worker acknowledgement carries the accepted configuration so the UI updates after a successful replay.
+
 ## Required behavioral proof
 
-The [kernel test suite](../src/simulation/kernel.test.ts) contains 16 tests, including each mandatory first-slice criterion.
+The initial [kernel test suite](../src/simulation/kernel.test.ts) contained 16 tests, including each mandatory first-slice criterion. The September 10 additions are summarized above.
 
 | Requirement | Concrete verification | Result |
 |---|---|---|
@@ -63,7 +75,7 @@ Headless timings below measure 1,000 steps after 1,000 warm-up steps, one colony
 | 100 | 15.1 ms | 0.015 ms | 66,225 |
 | 1,000 | 168.2 ms | 0.168 ms | 5,945 |
 
-A manual In-app Browser observation at 1,000 bees, 20× playback, dance view and tick 24,600 showed **120 rendered FPS** and **3.40 ms for 20 paired ticks** (two colonies). This is a point observation on the local display/runtime, not a sustained percentile or a guarantee for other devices. The worker measurement excludes snapshot cloning, message transport and rendering. The FPS readout measures animation-frame callbacks over approximately 1.5 seconds.
+A manual In-app Browser observation at 1,000 bees, 20× playback, dance view and tick 24,600 showed **120 rendered FPS** and **3.40 ms for 20 paired ticks** (two colonies). This is a point observation on the local display/runtime, not a sustained percentile or a guarantee for other devices. The worker measurement excludes snapshot cloning, message transport and rendering. At initial validation, the FPS readout measured animation-frame callbacks over approximately 1.5 seconds. The September 10 renderer counts actual draws instead and skips unchanged paused frames; a zero paused FPS is expected.
 
 Communication matching is currently O(bees × active dances); no separate communication-cost or heap profile was collected. The supported population cap is 1,000. A 5,000-bee mode, full memory budget, slower-device profiling and WebKit/Firefox coverage remain future validation work. Full cross-engine bitwise determinism is not claimed.
 

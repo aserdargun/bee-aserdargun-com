@@ -73,11 +73,12 @@ test('the learning guide teaches the current experiment and keeps quiz answers s
     ['BEE-001', 'A scout finds food', 'A scout found A.'],
     ['BEE-002', 'The waggle dance', 'A dance has started.'],
     ['BEE-004', 'Exploration vs recruitment', 'What happens to the bees’ knowledge'],
-    ['BEE-003', 'Better food wins', 'Resource allocation shows B'],
+    ['BEE-003', 'Between food sources', 'Resource allocation shows B'],
   ]) {
     await page.getByRole('button', { name: 'Experiments', exact: true }).click();
     await page.getByRole('dialog').getByRole('button', { name: new RegExp(id) }).click();
-    await page.getByRole('button', { name: 'Pause', exact: true }).click();
+    await expect(page.getByRole('button', { name: 'Run', exact: true })).toBeVisible();
+    await expect(page.getByTestId('tick-count')).toHaveText('0 tick');
     await expect(page.locator('.experiment-lesson')).toContainText(id);
     await expect(page.locator('.experiment-lesson').getByRole('heading', { name: heading, exact: true })).toBeVisible();
     await expect(page.locator('.knowledge-check legend')).toContainText(question);

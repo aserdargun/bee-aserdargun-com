@@ -8,7 +8,7 @@ export type WorkerRequest =
   | { type: 'export' }
   | { type: 'import'; run: unknown };
 export type WorkerResponse =
-  | { type: 'imported'; tick: number }
+  | { type: 'imported'; tick: number; config: SimulationConfig }
   | { type: 'snapshot'; world: WorldSnapshot; control: WorldSnapshot; playing: boolean; workerMs: number; workerTicks: number }
   | { type: 'export'; run: ExperimentRun }
   | { type: 'error'; message: string };

@@ -1,4 +1,7 @@
 'use client';
+import { LabShell, LabControlButton } from '@aserdargun/lab-ui';
+import '@aserdargun/lab-ui/styles.css';
+import { manifest, experiments as ilsExperiments, initialRoute } from '../ils/catalog';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, BarChart3, Download, Eye, FlaskConical, Flower2, GitBranch, Hexagon, MessageCircle, Pause, Play, RotateCcw, StepForward, Upload } from 'lucide-react';
 import { experiments, experimentConfig, type Language } from '../experiments/catalog';
@@ -44,8 +47,11 @@ export function Laboratory() {
   }, [lab.imported]);
   useEffect(() => { if (lab.imported) setNotice({ tick: lab.imported.tick }); }, [lab.imported]);
   useEffect(() => {
+    const route = initialRoute(window.location.search);
+    setBaseConfig(route.config);
+    if (route.locale) setLanguage(route.locale);
     try {
-      const lang = localStorage.getItem('bee-language'); if (lang === 'tr' || lang === 'en') setLanguage(lang);
+      const lang = localStorage.getItem('bee-language'); if (!route.locale && (lang === 'tr' || lang === 'en')) setLanguage(lang);
       const raw = localStorage.getItem('bee-history-v1');
       if (raw && raw.length < 2_000_000) {
         const saved: unknown = JSON.parse(raw);
@@ -105,11 +111,11 @@ export function Laboratory() {
               <div className="compare-results"><div><span>{t('Collected food', 'Toplanan besin')}</span><strong>{world.metrics.foodCollected.toFixed(1)} <span>/</span> {control.metrics.foodCollected.toFixed(1)}</strong></div><div><span>{t('Difference in this model', 'Bu modeldeki fark')}</span><strong>{control.metrics.foodCollected > 0 ? `${((world.metrics.foodCollected / control.metrics.foodCollected - 1) * 100).toFixed(1)}%` : '—'}</strong></div><p>{t('Experimental / control. One paired run; not a biological effect estimate.', 'Deney / kontrol. Tek eşlenik koşu; biyolojik etki tahmini değildir.')}</p></div>
             </div>}
             <div className="playback-toolbar">
-              <button className="play-button" disabled={world.tick >= 36000} onClick={() => lab.send({ type: 'play', playing: !lab.playing })}>{lab.playing ? <Pause size={16} /> : <Play size={16} />}{lab.playing ? t('Pause', 'Duraklat') : t('Run', 'Çalıştır')}</button>
+              <LabControlButton action={lab.playing ? 'pause' : 'play'} capabilities={manifest.capabilities} locale={language} aria-label={lab.playing ? t('Pause', 'Duraklat') : t('Run', 'Çalıştır')} className="play-button" disabled={world.tick >= 36000} onClick={() => lab.send({ type: 'play', playing: !lab.playing })}>{lab.playing ? <Pause size={16} /> : <Play size={16} />}{lab.playing ? t('Pause', 'Duraklat') : t('Run', 'Çalıştır')}</LabControlButton>
               <div className="speed-controls" role="group" aria-label={t('Simulation speed', 'Simülasyon hızı')}>{([1, 5, 20] as const).map(s => <button key={s} aria-pressed={lab.speed === s} className={lab.speed === s ? 'active' : ''} onClick={() => lab.changeSpeed(s)}>{s}×</button>)}</div>
-              <button className="step-button" disabled={world.tick >= 36000} onClick={() => lab.send({ type: 'step' })}><StepForward size={16} />{t('Step', 'Adım')}</button>
-              <button className="reset-button" aria-label={t('Reset simulation', 'Simülasyonu sıfırla')} onClick={() => reset(baseConfig)}><RotateCcw size={16} /><span>{t('Reset', 'Sıfırla')}</span></button>
-              <button className={`compare-button ${compare ? 'active' : ''}`} aria-pressed={compare} onClick={() => setCompare(!compare)}><BarChart3 size={16} />{t('Compare', 'Karşılaştır')}</button>
+              <LabControlButton action="step" capabilities={manifest.capabilities} locale={language} className="step-button" disabled={world.tick >= 36000} onClick={() => lab.send({ type: 'step' })}><StepForward size={16} />{t('Step', 'Adım')}</LabControlButton>
+              <LabControlButton action="reset" capabilities={manifest.capabilities} locale={language} className="reset-button" aria-label={t('Reset simulation', 'Simülasyonu sıfırla')} onClick={() => reset(baseConfig)}><RotateCcw size={16} /><span>{t('Reset', 'Sıfırla')}</span></LabControlButton>
+              <LabControlButton action="compare" capabilities={manifest.capabilities} locale={language} className={`compare-button ${compare ? 'active' : ''}`} aria-pressed={compare} onClick={() => setCompare(!compare)}><BarChart3 size={16} />{t('Compare', 'Karşılaştır')}</LabControlButton>
               <TermHelp term="comparison" language={language} />
               <div className="model-clock"><span className="control-caption">{t('Model time', 'Model zamanı')}<TermHelp term="time" language={language} /></span><strong data-testid="model-time">{formatTime(world.tick)}</strong><small data-testid="tick-count">{world.tick} tick</small></div>
             </div>
@@ -121,6 +127,9 @@ export function Laboratory() {
         <div className="run-details"><span className="mono">Seed {world.config.seed} · {t('Model', 'Model')} 0.1.0</span><label htmlFor="population">{t('Population · new run', 'Arı sayısı · yeni koşu')}<select id="population" value={baseConfig.population} onChange={e => { setPrediction(null); reset({ ...baseConfig, population: Number(e.target.value) }); }}>{[100,160,500,1000,...(![100,160,500,1000].includes(baseConfig.population) ? [baseConfig.population] : [])].map(n => <option key={n} value={n}>{n}</option>)}</select></label><span className="control-caption"><label><input type="checkbox" checked={debug} onChange={e => setDebug(e.target.checked)} />{t('Inspect signals & performance', 'Sinyal ve performansı incele')}</label><TermHelp term="performance" language={language} /></span>{debug && <span className="mono" data-testid="worker-timing">{lab.workerTicks ? `${lab.workerMs.toFixed(2)} ms / ${lab.workerTicks} ${t(lab.workerTicks === 1 ? 'paired tick' : 'paired ticks', 'eşlenik tick')}` : t('Worker timing: awaiting step', 'İşlem süresi: adım bekleniyor')}</span>}</div>
       </>}
       <LearningGuide key={experiment.id} language={language} experiment={experiment} />
+      <LabShell manifest={manifest} experiment={ilsExperiments.find(e => e.config?.nativeExperimentId === experiment.id)!} locale={language}>
+        <p>{t('Current applied configuration and tick-stamped interventions define this run; imported runs are recomputed.', 'Mevcut uygulanmış yapılandırma ve tick ile kaydedilmiş müdahaleler bu koşuyu tanımlar; içe aktarılan koşular yeniden hesaplanır.')}</p>
+      </LabShell>
     </main>
     {noticeText && <p className="notice" role="status">{noticeText}</p>}
     <footer className="site-footer" inert={lab.importing}><span><strong>BEE</strong> v0.1 · {t('Model units, not field measurements', 'Model birimleri, saha ölçümleri değildir')}</span><div><TermHelp term="replay" language={language} /><button onClick={() => setDialog('history')}>{t('Local history', 'Yerel geçmiş')} ({history.length})</button><button onClick={() => fileRef.current?.click()}><Upload size={16} />{t('Import run', 'Koşu içe aktar')}</button><button disabled={!world} onClick={() => lab.send({ type: 'export' })}>{t('Export run', 'Koşuyu dışa aktar')}<Download size={17} /></button></div></footer>

@@ -1,0 +1,214 @@
+[
+  {
+    "schemaVersion": "0.1",
+    "id": "bee-001",
+    "title": {
+      "tr": "Bir keşifle başlar.",
+      "en": "It starts with a scout."
+    },
+    "guidingQuestion": {
+      "tr": "Dans olmadan diğer arılar kaynağı öğrenebilir mi?",
+      "en": "Without a dance, will other bees learn about the source?"
+    },
+    "concepts": [
+      "concept:local-observation",
+      "concept:collective-foraging",
+      "concept:social-recruitment"
+    ],
+    "learningObjectives": [
+      {
+        "tr": "Bir arının deneyimi, henüz koloninin bilgisi değildir.",
+        "en": "One bee’s experience is not yet the colony’s knowledge."
+      }
+    ],
+    "observations": [
+      {
+        "id": "outcome",
+        "label": {
+          "en": "Observed model outcome",
+          "tr": "Gözlenen model sonucu"
+        },
+        "explanation": {
+          "tr": "Bu modelde dans kapalıyken deneyim bireysel kalır. Keşifçiler buldukları yere dönebilir; bekleyen işçiler otomatik bilgi almaz.",
+          "en": "In this model, experience stays individual without dance. Scouts can revisit discoveries; waiting workers receive no automatic knowledge."
+        },
+        "evidenceRefs": [
+          "world",
+          "metrics"
+        ]
+      }
+    ],
+    "assumptionRefs": [
+      "local-information",
+      "model-units"
+    ],
+    "evidenceRefs": [
+      "world",
+      "metrics",
+      "inputs"
+    ],
+    "config": {
+      "nativeExperimentId": "BEE-001",
+      "experimentVersion": "0.1.0"
+    }
+  },
+  {
+    "schemaVersion": "0.1",
+    "id": "bee-002",
+    "title": {
+      "tr": "Bir dans, yeni yollar.",
+      "en": "One dance. New paths."
+    },
+    "guidingQuestion": {
+      "tr": "Dansı açmak toplanan besini nasıl değiştirir?",
+      "en": "How will enabling dance change the food collected?"
+    },
+    "concepts": [
+      "concept:local-observation",
+      "concept:collective-foraging",
+      "concept:social-recruitment"
+    ],
+    "learningObjectives": [
+      {
+        "tr": "Yerel bir iletişimin koloniye nasıl yayıldığını izleyin.",
+        "en": "Follow a local message as it spreads through the colony."
+      }
+    ],
+    "observations": [
+      {
+        "id": "outcome",
+        "label": {
+          "en": "Observed model outcome",
+          "tr": "Gözlenen model sonucu"
+        },
+        "explanation": {
+          "tr": "Bu modelde bir gözlemci, yakındaki dansı izler ve olasılıksal olarak katılır. Karşılaştırma aynı başlangıç koşullarındaki dans kapalı koloniyi gösterir.",
+          "en": "In this model, an observer encounters a nearby dance and may follow it. Compare uses a colony with dance disabled and the same initial conditions."
+        },
+        "evidenceRefs": [
+          "world",
+          "metrics"
+        ]
+      }
+    ],
+    "assumptionRefs": [
+      "local-information",
+      "model-units"
+    ],
+    "evidenceRefs": [
+      "world",
+      "metrics",
+      "inputs"
+    ],
+    "config": {
+      "nativeExperimentId": "BEE-002",
+      "experimentVersion": "0.1.0"
+    }
+  },
+  {
+    "schemaVersion": "0.1",
+    "id": "bee-003",
+    "title": {
+      "tr": "Daha iyi besin kazanır mı?",
+      "en": "Does better food win?"
+    },
+    "guidingQuestion": {
+      "tr": "Uzaktaki daha zengin kaynak, daha çok arıyı çekebilir mi?",
+      "en": "Will a farther, richer source attract more foragers?"
+    },
+    "concepts": [
+      "concept:local-observation",
+      "concept:collective-foraging",
+      "concept:social-recruitment"
+    ],
+    "learningObjectives": [
+      {
+        "tr": "Bireysel keşiflerin ortak davranışa dönüşmesini izleyin.",
+        "en": "Watch local discoveries become collective behavior."
+      }
+    ],
+    "observations": [
+      {
+        "id": "outcome",
+        "label": {
+          "en": "Observed model outcome",
+          "tr": "Gözlenen model sonucu"
+        },
+        "explanation": {
+          "tr": "Bu modelde besin kalitesi ve yol maliyeti dansı etkiler. Dağılım, bireysel ziyaretler ve yerel katılımlardan doğar. Hiçbir arı tüm peyzajı bilmez.",
+          "en": "In this model, food quality and travel cost influence dancing. Allocation emerges from individual visits and local recruitment. No bee knows the whole landscape."
+        },
+        "evidenceRefs": [
+          "world",
+          "metrics"
+        ]
+      }
+    ],
+    "assumptionRefs": [
+      "local-information",
+      "model-units"
+    ],
+    "evidenceRefs": [
+      "world",
+      "metrics",
+      "inputs"
+    ],
+    "config": {
+      "nativeExperimentId": "BEE-003",
+      "experimentVersion": "0.1.0"
+    }
+  },
+  {
+    "schemaVersion": "0.1",
+    "id": "bee-004",
+    "title": {
+      "tr": "Keşfetmek mi, izlemek mi?",
+      "en": "Explore or follow?"
+    },
+    "guidingQuestion": {
+      "tr": "Az sayıda keşifçiyle koloni değişime nasıl tepki verir?",
+      "en": "With few scouts, how does the colony respond to change?"
+    },
+    "concepts": [
+      "concept:local-observation",
+      "concept:collective-foraging",
+      "concept:social-recruitment"
+    ],
+    "learningObjectives": [
+      {
+        "tr": "Keşifçi oranını değiştirin; bulma ve toplama arasındaki dengeyi ölçün.",
+        "en": "Change the scout proportion. Measure discovery against collection."
+      }
+    ],
+    "observations": [
+      {
+        "id": "outcome",
+        "label": {
+          "en": "Observed model outcome",
+          "tr": "Gözlenen model sonucu"
+        },
+        "explanation": {
+          "tr": "Keşifçi oranını değiştirmek aynı seed ile yeni bir koşu başlatır. B kaynağını kaldırıp eski bilginin nasıl geçersizleştiğini izleyin. Tek koşu genel bir sonuç vermez.",
+          "en": "Changing scout proportion starts a new run with the same seed. Remove source B to watch stale information expire. One run does not establish a general result."
+        },
+        "evidenceRefs": [
+          "world",
+          "metrics"
+        ]
+      }
+    ],
+    "assumptionRefs": [
+      "local-information",
+      "model-units"
+    ],
+    "evidenceRefs": [
+      "world",
+      "metrics",
+      "inputs"
+    ],
+    "config": {
+      "nativeExperimentId": "BEE-004",
+      "experimentVersion": "0.1.0"
+    }
+  }
+]

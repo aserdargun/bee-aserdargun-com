@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, readdir, copyFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 
 function git(...args) {
   try { return execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim(); }
@@ -12,6 +13,19 @@ if (commit !== null && !/^[a-f0-9]{40}$/.test(commit)) throw new Error('Invalid 
 if (process.env.GITHUB_ACTIONS === 'true' && commit !== head) throw new Error('Release commit does not match checkout');
 
 const manifest = JSON.parse(await readFile('package.json', 'utf8'));
+await copyFile('lab.manifest.json', 'out/lab.manifest.json');
+const assets = {};
+async function inventory(directory = '') {
+  for (const entry of await readdir(`out/${directory}`, { withFileTypes: true })) {
+    const path = directory + entry.name;
+    if (entry.isDirectory()) await inventory(path + '/');
+    else if (path !== 'release.json' && path !== 'staticwebapp.config.json') {
+      const bytes = await readFile(`out/${path}`);
+      assets[path] = { bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex') };
+    }
+  }
+}
+await inventory();
 const release = {
   repository: 'aserdargun/bee-aserdargun-com',
   commit,
@@ -19,6 +33,7 @@ const release = {
   dirty: Boolean(git('status', '--porcelain')),
   applicationVersion: manifest.version,
   builtAt: new Date().toISOString(),
+  assets,
 };
 await writeFile('out/release.json', `${JSON.stringify(release, null, 2)}\n`);
 console.log(`BEE release metadata: ${commit || 'local source'}${release.dirty ? ' (working changes)' : ''}`);

@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "0.1",
+  "id": "bee",
+  "code": "bee",
+  "name": "Bee Collective Intelligence Laboratory",
+  "canonicalUrl": "https://bee.aserdargun.com/",
+  "type": "interactive-lab",
+  "parentApp": "swi",
+  "status": "live",
+  "tagline": {
+    "en": "From private discovery to local social recruitment.",
+    "tr": "Bireysel keşiften yerel sosyal katılıma."
+  },
+  "guidingQuestion": {
+    "en": "How does local communication shape collective foraging?",
+    "tr": "Yerel iletişim kolektif besin aramayı nasıl şekillendirir?"
+  },
+  "concepts": [
+    "concept:local-observation",
+    "concept:collective-foraging",
+    "concept:social-recruitment"
+  ],
+  "capabilities": {
+    "play": true,
+    "pause": true,
+    "step": true,
+    "reset": true,
+    "compare": true,
+    "guidedLesson": true,
+    "experiments": true,
+    "assumptions": true,
+    "evidence": true
+  },
+  "experiments": [
+    {
+      "id": "bee-001",
+      "title": {
+        "tr": "Bir keşifle başlar.",
+        "en": "It starts with a scout."
+      },
+      "route": "/?experiment=bee-001"
+    },
+    {
+      "id": "bee-002",
+      "title": {
+        "tr": "Bir dans, yeni yollar.",
+        "en": "One dance. New paths."
+      },
+      "route": "/?experiment=bee-002"
+    },
+    {
+      "id": "bee-003",
+      "title": {
+        "tr": "Daha iyi besin kazanır mı?",
+        "en": "Does better food win?"
+      },
+      "route": "/?experiment=bee-003"
+    },
+    {
+      "id": "bee-004",
+      "title": {
+        "tr": "Keşfetmek mi, izlemek mi?",
+        "en": "Explore or follow?"
+      },
+      "route": "/?experiment=bee-004"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "bee-001-guide",
+      "title": {
+        "tr": "İlk keşif",
+        "en": "A scout finds food"
+      },
+      "route": "/?lesson=bee-001-guide#learning-guide"
+    },
+    {
+      "id": "bee-002-guide",
+      "title": {
+        "tr": "Sallanma dansı",
+        "en": "The waggle dance"
+      },
+      "route": "/?lesson=bee-002-guide#learning-guide"
+    },
+    {
+      "id": "bee-003-guide",
+      "title": {
+        "tr": "Kaynaklar arasında",
+        "en": "Between food sources"
+      },
+      "route": "/?lesson=bee-003-guide#learning-guide"
+    },
+    {
+      "id": "bee-004-guide",
+      "title": {
+        "tr": "Keşif ve katılım",
+        "en": "Exploration vs recruitment"
+      },
+      "route": "/?lesson=bee-004-guide#learning-guide"
+    }
+  ],
+  "evidencePolicy": {
+    "summary": {
+      "en": "Simulated agents; calculated observer metrics; applied user inputs. Model units and single paired runs are not field evidence.",
+      "tr": "Simüle ajanlar; hesaplanan gözlem metrikleri; uygulanmış kullanıcı girdileri. Model birimleri ve tek eşlenik koşular saha kanıtı değildir."
+    },
+    "allowedKinds": [
+      "simulated",
+      "calculated",
+      "user-input"
+    ]
+  },
+  "assumptions": [
+    {
+      "id": "local-information",
+      "title": {
+        "en": "Local information and fixed roles",
+        "tr": "Yerel bilgi ve sabit görevler"
+      },
+      "description": {
+        "en": "Bees receive local observations, private memory and nearby expiring dance signals. Uninformed foragers wait; scouts search. Colony metrics never drive individual decisions.",
+        "tr": "Arılar yerel gözlem, özel hafıza ve yakındaki süreli dans sinyallerini alır. Bilgisiz toplayıcılar bekler; keşifçiler arar. Koloni metrikleri bireysel kararları yönlendirmez."
+      }
+    },
+    {
+      "id": "model-units",
+      "title": {
+        "en": "Abstract model and paired comparisons",
+        "tr": "Soyut model ve eşlenik karşılaştırmalar"
+      },
+      "description": {
+        "en": "Distance, time and food are model units, not field measurements. A same-seed dance-off control is one paired model run, not a biological effect estimate or a universal advantage.",
+        "tr": "Uzaklık, zaman ve besin model birimleridir; saha ölçümü değildir. Aynı tohumla dansı kapalı kontrol, tek eşlenik model koşusudur; biyolojik etki tahmini veya evrensel üstünlük değildir."
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "schemaVersion": "0.1",
+      "id": "world",
+      "kind": "simulated",
+      "verificationStatus": "not-applicable",
+      "label": {
+        "en": "Bee trajectories and dance signals",
+        "tr": "Arı yolları ve dans sinyalleri"
+      },
+      "notes": {
+        "en": "The deterministic worker produces an abstract world. Biological citations motivate concepts; they do not calibrate these numerical outcomes.",
+        "tr": "Belirlenimci işçi soyut bir dünya üretir. Biyolojik kaynaklar kavramları destekler; bu sayısal sonuçları kalibre etmez."
+      },
+      "assumptionRefs": [
+        "local-information",
+        "model-units"
+      ]
+    },
+    {
+      "schemaVersion": "0.1",
+      "id": "metrics",
+      "kind": "calculated",
+      "verificationStatus": "not-applicable",
+      "label": {
+        "en": "Allocation, delivery and discovery",
+        "tr": "Dağılım, teslimat ve keşif"
+      },
+      "notes": {
+        "en": "Observer metrics are computed from the simulated world. Allocation includes source-directed trips only. Replay recomputes the run instead of trusting imported totals.",
+        "tr": "Gözlem metrikleri simüle dünyadan hesaplanır. Dağılım yalnızca kaynağa yönelik seferleri içerir. Yeniden oynatma, içe aktarılan toplamlara güvenmek yerine koşuyu yeniden hesaplar."
+      },
+      "assumptionRefs": [
+        "local-information",
+        "model-units"
+      ],
+      "calculatedFrom": [
+        "world"
+      ]
+    },
+    {
+      "schemaVersion": "0.1",
+      "id": "inputs",
+      "kind": "user-input",
+      "verificationStatus": "not-applicable",
+      "label": {
+        "en": "Applied configuration and interventions",
+        "tr": "Uygulanmış yapılandırma ve müdahaleler"
+      },
+      "notes": {
+        "en": "Seed, population and applied changes define this run. Interventions are tick stamped in replay exports; compare equal tick budgets and multiple seeds.",
+        "tr": "Tohum, nüfus ve uygulanmış değişiklikler bu koşuyu tanımlar. Müdahaleler dışa aktarımlarda tick ile kaydedilir; eşit tick bütçelerini ve birden fazla tohumu karşılaştırın."
+      },
+      "assumptionRefs": [
+        "local-information",
+        "model-units"
+      ]
+    }
+  ],
+  "related": {
+    "theory": [
+      {
+        "id": "swi",
+        "label": {
+          "en": "Swarm Intelligence · SWI",
+          "tr": "Sürü Zekâsı · SWI"
+        },
+        "url": "https://swi.aserdargun.com/"
+      }
+    ],
+    "labs": [
+      {
+        "id": "ant",
+        "label": {
+          "en": "Compare shared trails · ANT",
+          "tr": "Ortak izleri karşılaştır · ANT"
+        },
+        "url": "https://ant.aserdargun.com/",
+        "localizedUrls": {
+          "en": "https://ant.aserdargun.com/?lang=en",
+          "tr": "https://ant.aserdargun.com/?lang=tr"
+        }
+      }
+    ]
+  }
+}

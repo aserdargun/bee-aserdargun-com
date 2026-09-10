@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { defaultConfig } from '../simulation/config';
+import { initialRoute } from '../ils/catalog';
 import type { ExperimentRun, SimulationConfig, WorldSnapshot } from '../simulation/types';
 import type { WorkerRequest, WorkerResponse } from '../simulation/protocol';
 
@@ -33,7 +33,7 @@ export function useLaboratory() {
       if (data.type === 'error') { importingRef.current = false; setImporting(false); setError(data.message); }
     };
     worker.onerror = fail;
-    worker.postMessage({ type: 'init', ...(initialRef.current ?? { config: defaultConfig(), playing: !window.matchMedia('(prefers-reduced-motion: reduce)').matches }) } satisfies WorkerRequest);
+    worker.postMessage({ type: 'init', ...(initialRef.current ?? { config: initialRoute(window.location.search).config, playing: !window.matchMedia('(prefers-reduced-motion: reduce)').matches }) } satisfies WorkerRequest);
     return () => { worker.terminate(); workerRef.current = null; };
   }, [generation]);
   const send = useCallback((message: WorkerRequest) => {

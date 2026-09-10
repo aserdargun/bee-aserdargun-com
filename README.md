@@ -60,3 +60,9 @@ Headless deneyleri tekrar çalıştırmak için `npm run experiment:batch` kulla
 BEE is an independent, static, bilingual collective intelligence laboratory. A pure TypeScript kernel runs paired colonies in a Web Worker; React and Canvas 2D only present snapshots. Bees use personal memories and nearby signals, never colony metrics or a global allocation policy. JSON exports retain model versions, initial parameters and ordered interventions; imports recompute from tick zero. The current slice covers foraging and recruitment. Quorum, nest decisions, dynamic task allocation and thermoregulation are future modules.
 
 Run `npm run dev:codex`, validate with `npm run validate:codex`, stop with `npm run stop:codex`. The application is independently hostable; SWI integration consists of explicit concepts, versioned run data and navigation links, with no runtime dependency on SWI or ANT.
+
+## Shared ILS contract
+
+BEE consumes the unchanged ILS 0.1 core and UI archives in `vendor/`. The app-owned manifest maps its four real experiments and their existing bilingual three-step guides to the shared contract; the simulation, worker scheduling and replay semantics remain in BEE. Shared controls preserve the existing actions and accessible names. Applied settings and interventions remain user inputs, world state is simulated, and observer metrics are calculated from that state.
+
+Authored `?experiment=bee-001` through `bee-004`, or `?lesson=bee-001-guide` through `bee-004-guide`, select existing configurations. Lessons take precedence when both are present. `?lang=en|tr` selects the language; invalid routes and unsupported `ils` context are ignored. Routing is initialized inside client effects so static export remains safe. Release metadata inventories every public asset by SHA-256, including the ILS manifest.

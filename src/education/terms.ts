@@ -52,9 +52,9 @@ export const terms = {
     example: text('“—” henüz keşif yapılmadığını gösterir. İlk bulunan kaynak, en kaliteli kaynak veya ilk teslim edilen besin olmak zorunda değildir.', '“—” means no discovery yet. The first source found need not be the richest source or the first food delivered.'),
   },
   activeScouts: {
-    title: text('Uçuştaki keşifçiler', 'Scouts in flight'),
+    title: text('Etkin keşifçiler', 'Active scouts'),
     definition: text('Keşifçi rolünde olup bekleme, dans etme veya dans izleme durumunda olmayan arıların sayısıdır.', 'The number of bees with the scout role that are not resting, dancing or observing a dance.'),
-    example: text('Adında “uçuş” geçse de kaynağın üzerinde besin toplayan keşifçiler de sayılır. Bu, yalnızca yeni yer arayan arıların sayısı değildir.', 'Despite “flight” in the label, scouts collecting at a source also count. This is not just the number searching for new sources.'),
+    example: text('Kaynakta besin toplayan ve kovana dönen keşifçiler de sayılır. Bu, yalnızca yeni yer arayan arıların sayısı değildir.', 'Scouts collecting at a source or returning to the hive also count. This is not just the number searching for new sources.'),
   },
   recruited: {
     title: text('Katılan toplayıcılar', 'Recruited foragers'),

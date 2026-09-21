@@ -2,7 +2,7 @@
 
 Bal arılarında yerel keşif, dansla bilgi aktarımı ve merkezi koordinasyon olmadan kaynak dağılımını inceleyen, Türkçe/İngilizce deney laboratuvarı. V0.1, **Apis mellifera** esinli, deterministik bir eğitim modelidir; biyolojik tahmin aracı değildir.
 
-[BEE laboratuvarını aç](https://agreeable-forest-01a27f803.6.azurestaticapps.net) · [GitHub](https://github.com/aserdargun/bee-aserdargun-com)
+[BEE laboratuvarını aç](https://bee.aserdargun.com/) · [GitHub](https://github.com/aserdargun/bee-aserdargun-com)
 
 ## Yerelde çalıştırma
 
@@ -44,7 +44,13 @@ npm run preview
 
 İlk açılışta canlı BEE-003 başlar. Bir tahmin seçmek koşuyu tick 0'a döndürüp duraklatır; **Çalıştır** ile deney başlatılır. Hareket azaltma tercihi varsa uygulama başlangıçta ve deney değiştirirken duraklar. Seed, arı sayısı ve keşifçi oranı yeni koşu başlatır; dans, gürültü ve kaynak müdahaleleri mevcut koşuya kaydedilir. Reset başlangıç parametrelerine döner.
 
+## aserdargun.com içindeki yeri
+
+[aserdargun.com öğrenme sistemi](https://aserdargun.com/tr/) → [SWI araştırması](https://swi.aserdargun.com/tr/) → BEE deneyleri. [ANT](https://ant.aserdargun.com/?lang=tr), çevresel izlerle koordinasyonu karşılaştırmak için kardeş laboratuvardır. BEE yerel dans sinyalleri ve bireysel hafızaya odaklanır. Bu ilişki öğrenme ve gezinme ilişkisidir; uygulamalar arasında otomatik koşu aktarımı veya ortak simülasyon yoktur. Laboratuvarların sayısal sonuçları farklı model ve birimler nedeniyle doğrudan karşılaştırılmaz.
+
 ## Kanıt ve belgeler
+
+- [21 Eylül 2026 içerik ve portföy incelemesi](docs/CONTENT-REVIEW.md)
 
 - [13 bölümlük mimari ve uygulama sözleşmesi](docs/FOUNDATION.md)
 - [Davranış kuralları, formüller, birimler ve tekrar oynatma sınırları](docs/MODEL.md)
@@ -61,8 +67,10 @@ BEE is an independent, static, bilingual collective intelligence laboratory. A p
 
 Run `npm run dev:codex`, validate with `npm run validate:codex`, stop with `npm run stop:codex`. The application is independently hostable; SWI integration consists of explicit concepts, versioned run data and navigation links, with no runtime dependency on SWI or ANT.
 
+BEE belongs to the [aserdargun.com learning system](https://aserdargun.com/): [SWI](https://swi.aserdargun.com/en/) provides research context and [ANT](https://ant.aserdargun.com/?lang=en) provides a companion experiment in coordination through environmental traces. Compare mechanisms and assumptions, not numerical scores across different models. Navigation does not transfer runs between apps.
+
 ## Shared ILS contract
 
-BEE consumes the unchanged ILS 0.1 core and UI archives in `vendor/`. The app-owned manifest maps its four real experiments and their existing bilingual three-step guides to the shared contract; the simulation, worker scheduling and replay semantics remain in BEE. Shared controls preserve the existing actions and accessible names. Applied settings and interventions remain user inputs, world state is simulated, and observer metrics are calculated from that state.
+BEE consumes the versioned ILS core and UI 0.2.0 archives (manifest schema 0.1) in `vendor/`. The app-owned manifest maps its four real experiments and their existing bilingual three-step guides to the shared contract; the simulation, worker scheduling and replay semantics remain in BEE. Shared controls preserve the existing actions and accessible names. Applied settings and interventions remain user inputs, world state is simulated, and observer metrics are calculated from that state.
 
 Authored `?experiment=bee-001` through `bee-004`, or `?lesson=bee-001-guide` through `bee-004-guide`, select existing configurations. Lessons take precedence when both are present. `?lang=en|tr` selects the language; invalid routes and unsupported `ils` context are ignored. Routing is initialized inside client effects so static export remains safe. Release metadata inventories every public asset by SHA-256, including the ILS manifest.

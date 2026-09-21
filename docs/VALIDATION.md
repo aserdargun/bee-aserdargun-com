@@ -2,6 +2,14 @@
 
 Validated locally on 2026-09-06 with Node 22.23.1, npm 10.9.8, Next.js 16.3.4, Vitest 5.0.0 and Playwright 1.63.0. This records the initial local verification, before remote publication. Subsequent publication follows the [deployment contract](DEPLOYMENT.md).
 
+## September 21 content and portfolio review
+
+The final local `npm run validate:codex` passed: **28 kernel/worker/ILS + 3 environment + 36 Chromium browser tests = 67 passing tests**, together with TypeScript, the static production build, artifact verification and `git diff --check`. The built HTML includes the revised educational-model metadata. Simulation rules, initial configurations, metric formulas and replay versions were unchanged.
+
+Additional rendered checks passed for Turkish and English at widths **320, 390, 1024 and 1536 pixels** (eight combinations): localized portfolio links, 44px link targets, the three source notes, no horizontal overflow or console/page errors, and an unchanged paused tick after opening and dismissing Field notes. The 320px Turkish portfolio section was visually inspected. Local review evidence is under ignored `output/qa/` (`content-smoke.json` and `portfolio-<width>-<language>.png`); these are generated review artifacts, not production assets. The temporary 4018 preview was stopped using the checkout-owned lifecycle command.
+
+In the sibling aserdargun-com checkout, the final `npm test` passed (407 tests plus generated-content and site validation); `npm run test:server` passed 14 tests, and `git diff --check` passed. That checkout contained concurrent unrelated work, which was preserved. BEE's canonical summary, guiding question and content-update date were updated; its historical release evidence was not refreshed or represented as a new deployment. See [CONTENT-REVIEW.md](CONTENT-REVIEW.md) for scope and source checks. No commit, push or publication was performed by this review.
+
 ## September 10 reliability review
 
 The final local `npm run validate:codex` passed on Node 22.23.1: **26 kernel/worker + 3 environment + 36 Chromium browser tests = 65 passing tests**, plus TypeScript, the production static build, artifact verification and `git diff --check`. The full `npm audit --json` returned zero reported vulnerabilities. This review was local; no commit, push or deployment was performed.

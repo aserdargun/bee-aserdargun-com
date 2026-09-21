@@ -49,12 +49,12 @@ export function ColonyInspector({ world, language, selected, onSelect, follow, o
       <dl className="metric-list">
         <div><dt>{t('Food collected', 'Toplanan besin')}<TermHelp term="food" language={language} /></dt><dd data-testid="food-collected">{n(m.foodCollected, 1)}</dd></div>
         <div><dt>{t('First discovery', 'İlk keşif')}<TermHelp term="discovery" language={language} /></dt><dd>{m.firstDiscoveryTick === null ? '—' : `${(m.firstDiscoveryTick / 10).toFixed(1)} s`}</dd></div>
-        <div><dt>{t('Scouts in flight', 'Uçuştaki keşifçiler')}<TermHelp term="activeScouts" language={language} /></dt><dd>{m.activeScouts}</dd></div>
+        <div><dt>{t('Active scouts', 'Etkin keşifçiler')}<TermHelp term="activeScouts" language={language} /></dt><dd>{m.activeScouts}</dd></div>
         <div><dt>{t('Recruited foragers', 'Katılan toplayıcılar')}<TermHelp term="recruited" language={language} /></dt><dd>{m.recruitedForagers}</dd></div>
       </dl>
       <section className="allocation"><h3>{t('Resource allocation', 'Kaynak dağılımı')}<TermHelp term="allocation" language={language} /></h3>
         {(['A', 'B'] as const).map(id => <div className={`allocation-row ${id.toLowerCase()}`} key={id}><span>{id}</span><div className="allocation-track"><span style={{ width: `${sum ? m.allocation[id] / sum * 100 : 0}%` }} /></div><span>{sum ? Math.round(m.allocation[id] / sum * 100) : 0}%</span></div>)}
-        <p className="control-note">{sum ? t(`${sum} source-directed flights`, `${sum} kaynağa yönelik uçuş`) : t('No source-directed flights yet.', 'Henüz kaynağa yönelik uçuş yok.')}</p>
+        <p className="control-note">{sum ? t(`${sum} bees on source-directed trips`, `${sum} arı kaynağa yönelik seferde`) : t('No source-directed trips yet.', 'Henüz kaynağa yönelik sefer yok.')}</p>
       </section>
       <section className="chart-section"><h3>{t('Food intake rate', 'Besin toplama hızı')}</h3><ThroughputChart history={world.history} language={language} /></section>
       <button className="inspect-button" onClick={() => onSelect(world.bees.find(b => b.state === 'Dancing')?.id ?? world.bees.find(b => b.role === 'Scout')!.id)}><Bug size={16} />{t('Inspect a bee', 'Arıyı incele')}</button>

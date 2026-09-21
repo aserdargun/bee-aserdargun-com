@@ -1,6 +1,6 @@
 # BEE publication contract
 
-GitHub-first publication was explicitly authorized, followed by deployment to **aserdargun subscription 2**. This subscription overrides the deployment skill's default subscription. All Azure CLI operations use the explicit subscription ID; the machine's default subscription is preserved.
+Historical release authorization: GitHub-first publication was explicitly authorized, followed by deployment to **aserdargun subscription 2**. This subscription overrides the deployment skill's default subscription. All Azure CLI operations use the explicit subscription ID; the machine's default subscription is preserved.
 
 | Field | Target |
 |---|---|
@@ -31,4 +31,4 @@ BEE_BASE_URL=https://agreeable-forest-01a27f803.6.azurestaticapps.net npm run te
 
 The environment variable disables the temporary local test server. Tests affect only browser-local simulation state and do not write server data.
 
-The initial deployment used only the Azure-generated hostname. The existing `bee.aserdargun.com` binding is now `Ready` on this same app. Routine releases reuse that binding and verify both hosts; DNS and domain-configuration changes require a separate request. The app currently reports provider `GitHub`, repository `aserdargun/bee-aserdargun-com` and branch `main`; the workflow listed above remains its only active Azure deployment workflow.
+The initial deployment used only the Azure-generated hostname. On 2026-09-06, the existing `bee.aserdargun.com` binding was verified `Ready` on this same app. Routine releases reuse that binding and verify both hosts; DNS and domain-configuration changes require a separate request. The recorded deployment configuration used provider `GitHub`, repository `aserdargun/bee-aserdargun-com` and branch `main`, with the workflow listed above. Recheck live resource and workflow state before a future release. The 2026-09-21 content review was local and did not reverify deployment status.

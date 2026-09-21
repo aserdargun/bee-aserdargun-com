@@ -1,8 +1,10 @@
 # BEE V0.1 — foundation and implementation contract
 
-## 1. Current state
+## 1. Foundation snapshot and current scope
 
-Inspected 2026-09-06: empty checkout, unborn `master`, no origin, no application or inherited AGENTS.md. Local Node 22.23.1 and npm 10.9.8. No sibling repository is needed to run BEE. No publication is part of this milestone.
+Historical starting point, inspected 2026-09-06: empty checkout, unborn `master`, no origin, no application or inherited AGENTS.md. Local Node 22.23.1 and npm 10.9.8. No sibling repository is needed to run BEE. No publication was part of that initial milestone.
+
+As of the 2026-09-21 content review, this checkout implements four bilingual guided experiments, 27 glossary terms, paired controls, strict JSON replay and the vendored ILS core/UI 0.2.0 with manifest schema 0.1. BEE belongs to the aserdargun.com learning system under SWI, alongside ANT. These are learning relationships, not shared simulation state. See README for current routes and docs/VALIDATION.md for dated local checks; the foundation snapshot is not a current deployment report.
 
 ## 2. Application architecture
 
@@ -61,7 +63,7 @@ Finite sensor radius and landscape geometry may dominate discovery time: report 
 
 ## Evidence boundary
 
-- Seeley, Camazine & Sneyd (1991), *Collective decision-making in honey bees: how colonies choose among nectar sources*. [DOI](https://doi.org/10.1007/BF00175101). Motivation for profitability-dependent recruitment and abandonment; BEE does not reproduce their differential-equation model.
+- Seeley, Camazine & Sneyd (1991), *Collective decision-making in honey bees: how colonies choose among nectar sources*. [DOI](https://doi.org/10.1007/BF00175101). Motivation for profitability-dependent recruitment and abandonment; BEE does not reproduce the paper’s model or calibrate its constants against it.
 - *Honey bees infer source location from the dances of returning foragers* (2023). [Primary paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC10041085/). Supports information transfer; BEE's noisy vector is a deliberately narrower abstraction.
 - *Honeybees forage more successfully without the “dance language” in challenging environments* (2019). [Primary paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC6374110/). Supports caution about context-dependent communication benefits; no universal improvement claim.
-- [Next.js static export documentation](https://nextjs.org/docs/app/guides/static-exports) supports independent static hosting. No deployment has been performed.
+- [Next.js static export documentation](https://nextjs.org/docs/app/guides/static-exports) supports independent static hosting. Deployment history is separate from this foundation snapshot; see [the deployment contract](DEPLOYMENT.md).

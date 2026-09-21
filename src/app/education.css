@@ -158,3 +158,11 @@
     min-height: 44px;
   }
 }
+
+/* Portfolio context stays readable below the working laboratory. */
+.portfolio-context { margin: 24px clamp(18px, 3vw, 44px); padding: 24px 0; border-top: 1px solid var(--line); }
+.portfolio-context h2 { font-size: 22px; font-weight: 500; margin: 0 0 12px; }
+.portfolio-context p { max-width: 85ch; font-size: 13px; line-height: 1.8; }
+.portfolio-context .ecosystem-links { margin: 12px 0; gap: 8px 24px; }
+.ecosystem-links a { min-height: 44px; overflow-wrap: anywhere; }
+.ecosystem-links a svg { flex-shrink: 0; }

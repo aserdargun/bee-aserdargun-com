@@ -32,6 +32,7 @@
     "@aserdargun/lab-ui": "file:vendor/aserdargun-lab-ui-0.2.0-5a573640012a6472.tgz"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "1.63.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",

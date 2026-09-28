@@ -2,7 +2,7 @@
 
 Reference: `laboratory-concept.png`, 1536 × 1024. The request authorizes implementation without an intermediate design gate. Core behavior was proved before UI implementation.
 
-- Palette: warm paper #f7f5ee, panel #faf9f5, ink #29332f, secondary #66726b, borders #d8d8cc, sage #6e8874, amber #bd8638, blue #6e8caa. No color overlays on the botanical sprite or gradients.
+- Palette: warm paper #f7f5ee, panel #faf9f5, ink #29332f, secondary #66726b, borders #d8d8cc, sage #5f7665, amber #bd8638, blue #6e8caa. No color overlays on the botanical sprite or gradients.
 - Typography: Georgia for the main experiment title and large readout; DM Sans for 13–16px controls and 14–16px body; DM Mono for small measured values. Main title scales 34–52px, not a marketing hero.
 - Anatomy: 60px header, title band, 260px experiment rail, flexible landscape, 270px inspector. Thin dividers and modest 6px radii. The living world is the central focal point. Bottom playback strip and explanatory band continue the same grid.
 - Controls: outline Lucide icons at 16–18px, 1.6–1.8px strokes; text labels on important actions. Visible focus rings. All touch controls at least 44px high. Sliders and toggle operate native inputs.

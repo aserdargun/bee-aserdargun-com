@@ -1,7 +1,7 @@
 import { WORLD, type Bee, type Vec, type WorldSnapshot } from '../simulation/types';
 export type ViewMode = 'landscape' | 'dance' | 'communication';
 export interface Camera { zoom: number; x: number; y: number }
-export const COLORS = { ink: '#29332f', sage: '#6e8874', amber: '#bd8638', blue: '#6e8caa', paper: '#f7f5ee', muted: '#738077' };
+export const COLORS = { ink: '#29332f', sage: '#5f7665', amber: '#bd8638', blue: '#6e8caa', paper: '#f7f5ee', muted: '#738077' };
 export interface RenderOptions { view: ViewMode; camera: Camera; selected: number | null; follow: boolean; debug: boolean; language: 'tr' | 'en'; art: HTMLImageElement | null }
 const TAU = Math.PI * 2;
 function line(ctx: CanvasRenderingContext2D, a: Vec, b: Vec) { ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }

@@ -2,11 +2,11 @@
  * Automated accessibility coverage for the BEE laboratory, across both
  * languages and both viewports (the config's `desktop` and `mobile` projects).
  *
- * The `color-contrast` expectations currently FAIL on one pre-existing element
- * (`.mechanism-number` in the learning guide, #6e8874 on #faf9f5 = 3.66:1).
- * The rule is not disabled, excluded or threshold-weakened here: correcting it
- * is a colour change in `src/app/education.css`, which is outside this
- * coverage change. Every interaction assertion in these specs passes.
+ * These specs assert zero WCAG A/AA violations with the rule set intact. The
+ * suite was first landed while one pre-existing `color-contrast` failure stood
+ * (`.mechanism-number`, `--sage` on `--panel`); the token was darkened to 4.67:1
+ * in e6152dc and the scan is now clean. If a violation reappears, fix the colour
+ * — do not disable, exclude or threshold-weaken the rule here.
  *
  * BEE's numbers are model outputs of an educational kernel, not biological
  * field measurements; nothing here asserts a measured or predicted quantity.

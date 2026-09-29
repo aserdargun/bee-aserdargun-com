@@ -7,11 +7,19 @@ async function startPaused(page: Page) {
   await expect(page.getByTestId('tick-count')).toHaveText('0 tick');
 }
 
+// The entry route is English; the assertions below cover the Turkish surface,
+// so the language is named instead of inherited from the default.
+async function startPausedInTurkish(page: Page) {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/?lang=tr');
+  await expect(page.getByTestId('tick-count')).toHaveText('0 tick');
+}
+
 test('contextual help supports keyboard, dismissal and translation without changing a run', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-  await startPaused(page);
+  await startPausedInTurkish(page);
   await page.getByRole('button', { name: 'Adım', exact: true }).click();
   const seedHelp = page.getByRole('button', { name: 'Seed · rastgelelik tohumu hakkında bilgi', exact: true });
   await seedHelp.focus(); await page.keyboard.press('Enter');
@@ -53,7 +61,7 @@ test('contextual help supports keyboard, dismissal and translation without chang
 });
 
 test('the learning guide teaches the current experiment and keeps quiz answers separate from predictions', async ({ page }) => {
-  await startPaused(page);
+  await startPausedInTurkish(page);
   await page.getByRole('radio', { name: 'Zengin kaynak öne çıkar', exact: true }).check();
   await page.getByRole('link', { name: 'Öğrenme rehberi', exact: true }).click();
   await expect(page).toHaveURL(/#learning-guide$/);
@@ -88,7 +96,7 @@ test('the learning guide teaches the current experiment and keeps quiz answers s
 });
 
 test('the glossary searches both languages, handles no matches and fits touch screens', async ({ page }, testInfo) => {
-  await startPaused(page);
+  await startPausedInTurkish(page);
   await page.getByRole('link', { name: 'Öğrenme rehberi', exact: true }).click();
   await page.locator('.glossary summary').click();
   await page.getByRole('searchbox', { name: 'Terim ara', exact: true }).fill('seed');

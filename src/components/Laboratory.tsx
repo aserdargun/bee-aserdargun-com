@@ -23,7 +23,7 @@ type Notice = 'exported' | 'replaying' | 'invalid' | 'tooLarge' | 'unreadable' |
 const formatTime = (tick: number) => `${String(Math.floor(tick / 600)).padStart(2, '0')}:${String(Math.floor(tick / 10) % 60).padStart(2, '0')}`;
 export function Laboratory() {
   const lab = useLaboratory();
-  const [language, setLanguage] = useState<Language>('tr'), [view, setView] = useState<ViewMode>('landscape');
+  const [language, setLanguage] = useState<Language>('en'), [view, setView] = useState<ViewMode>('landscape');
   const [baseConfig, setBaseConfig] = useState<SimulationConfig>(defaultConfig);
   const [prediction, setPrediction] = useState<number | null>(null), [selected, setSelected] = useState<number | null>(null);
   const [follow, setFollow] = useState(false), [compare, setCompare] = useState(false), [debug, setDebug] = useState(false);

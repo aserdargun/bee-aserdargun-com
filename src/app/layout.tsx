@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="tr">
+    <html lang="en">
       <body>
         <noscript>
           <div style={{ maxWidth: '52rem', margin: '3rem auto', padding: '0 1rem', fontFamily: 'sans-serif', lineHeight: 1.6 }}>

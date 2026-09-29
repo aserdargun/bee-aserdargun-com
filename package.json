@@ -18,27 +18,32 @@
     "build": "next build --webpack && node scripts/write-release.mjs",
     "verify:artifact": "node scripts/verify-artifact.mjs",
     "preview": "node scripts/serve.mjs",
-    "validate:codex": "node scripts/validate.mjs",
+    "validate:codex": "npm run lint && node scripts/validate.mjs",
+    "lint": "eslint .",
     "experiment:batch": "tsx scripts/batch.ts"
   },
   "dependencies": {
+    "@aserdargun/lab-core": "file:vendor/aserdargun-lab-core-0.2.0-fb38c750c230ff3d.tgz",
+    "@aserdargun/lab-ui": "file:vendor/aserdargun-lab-ui-0.2.0-5a573640012a6472.tgz",
     "@fontsource/dm-mono": "^5.3.0",
     "@fontsource/dm-sans": "^5.3.0",
     "lucide-react": "^0.577.0",
     "next": "16.3.4",
     "react": "19.2.8",
-    "react-dom": "19.2.8",
-    "@aserdargun/lab-core": "file:vendor/aserdargun-lab-core-0.2.0-fb38c750c230ff3d.tgz",
-    "@aserdargun/lab-ui": "file:vendor/aserdargun-lab-ui-0.2.0-5a573640012a6472.tgz"
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "1.63.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0",
+    "typescript-eslint": "^8.71.0",
     "vitest": "5.0.0"
   }
 }

@@ -1,14 +1,8 @@
 import { test, expect, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
-async function startPaused(page: Page) {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/');
-  await expect(page.getByTestId('tick-count')).toHaveText('0 tick');
-}
-
-// The entry route is English; the assertions below cover the Turkish surface,
-// so the language is named instead of inherited from the default.
+// The entry route is English; the assertions in this file cover the Turkish
+// surface, so the language is named instead of inherited from the default.
 async function startPausedInTurkish(page: Page) {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/?lang=tr');

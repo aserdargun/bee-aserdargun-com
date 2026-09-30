@@ -166,3 +166,52 @@
 .portfolio-context .ecosystem-links { margin: 12px 0; gap: 8px 24px; }
 .ecosystem-links a { min-height: 44px; overflow-wrap: anywhere; }
 .ecosystem-links a svg { flex-shrink: 0; }
+
+/* Evidence, measured output, next scope and the sibling-lab comparison.
+   Same rules as the working laboratory: hairline separators, Georgia headings,
+   DM Mono for numbers, muted 13px prose. */
+.evidence-stamp { justify-content: flex-end; color: var(--muted); text-decoration: none; }
+.evidence-stamp:hover { color: var(--ink); }
+.evidence-summary, .measured-results, .next-scope, .companion-lab {
+  margin: 24px clamp(18px, 3vw, 44px); padding: 26px 0;
+  border-top: 1px solid var(--line); scroll-margin-top: 16px;
+}
+.evidence-summary h2, .measured-results h2, .next-scope h2, .companion-lab h2 { font: 26px/1.3 Georgia, serif; margin: 0 0 14px; }
+.evidence-summary .notes-lead, .measured-results .notes-lead, .next-scope .notes-lead { max-width: 60ch; }
+.evidence-summary-list { list-style: none; margin: 0; padding: 0; }
+.evidence-summary-list li { border-top: 1px solid var(--line); padding: 15px 0; }
+.evidence-summary-list a { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font-size: 13px; font-weight: 500; line-height: 1.6; }
+.evidence-summary-list a svg { flex-shrink: 0; }
+.evidence-summary-list p { max-width: 85ch; margin: 7px 0 0; font-size: 12px; line-height: 1.7; color: var(--muted); }
+.measured-table-scroll { overflow-x: auto; margin: 20px 0; }
+.measured-table { min-width: 640px; }
+.measured-table caption { caption-side: bottom; text-align: left; font-size: 11px; line-height: 1.6; color: var(--muted); padding-top: 12px; }
+.measured-table td, .measured-table th { white-space: nowrap; }
+.measured-table th[scope="row"] { font-family: var(--mono); font-size: 11px; color: var(--ink); }
+.companion-table th[scope="row"] { white-space: nowrap; }
+.companion-table th[scope="row"] a { display: inline-flex; align-items: center; gap: 5px; }
+.companion-table td { font-size: 12px; line-height: 1.7; color: #566259; }
+.next-modules { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
+.next-modules li { display: flex; flex-direction: column; gap: 11px; padding: 20px 22px; }
+.next-modules li + li { border-left: 1px solid var(--line); }
+.next-modules .mono { color: var(--sage); }
+.next-modules strong { font-weight: 500; font-size: 16px; }
+.next-modules p { font-size: 13px; line-height: 1.75; color: #566259; }
+.next-scope .control-note { display: flex; gap: 12px; align-items: flex-start; max-width: 95ch; }
+.next-scope .control-note svg { flex-shrink: 0; margin-top: 2px; }
+.measured-results .control-note, .companion-lab .control-note { max-width: 95ch; }
+
+@media (max-width: 1020px) {
+  .next-modules { grid-template-columns: 1fr; }
+  .next-modules li + li { border-left: 0; border-top: 1px solid var(--line); }
+}
+@media (max-width: 720px) {
+  .evidence-summary h2, .measured-results h2, .next-scope h2, .companion-lab h2 { font-size: 22px; }
+  .evidence-summary-list a { font-size: 12px; }
+  .evidence-summary-list p { font-size: 12px; }
+  .next-modules { margin-top: 18px; }
+  .next-modules li { padding: 17px 18px; }
+  .next-modules p { font-size: 13px; }
+  .measured-table { min-width: 560px; }
+  .companion-table td { font-size: 12px; }
+}

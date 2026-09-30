@@ -1,6 +1,6 @@
 import { ArrowUpRight } from 'lucide-react';
 import type { Language } from '../experiments/catalog';
-import { evidence } from '../experiments/evidence';
+import { evidence, evidenceScope, sourcesChecked } from '../experiments/evidence';
 export function FieldNotes({ language }: { language: Language }) {
   const t = (en: string, tr: string) => language === 'en' ? en : tr;
   return <div className="field-notes">
@@ -22,7 +22,7 @@ export function FieldNotes({ language }: { language: Language }) {
     </tbody></table>
     <h3>{t('Evidence, with boundaries', 'Dayanaklar ve sınırları')}</h3>
     {evidence.map(paper => <article className="paper" key={paper.id}><span className="mono">{paper.year}</span><a href={paper.url} target="_blank" rel="noreferrer">{paper.title}<ArrowUpRight size={15} /></a><p>{paper.note[language]}</p></article>)}
-    <p className="control-note">{t('Sources checked on 21 September 2026. These three studies motivate mechanisms and limitations; they are not a complete literature review or a calibration of BEE.', 'Kaynaklar 21 Eylül 2026’da kontrol edildi. Bu üç çalışma mekanizmalara ve sınırlara dayanak sunar; kapsamlı literatür taraması veya BEE’nin kalibrasyonu değildir.')}</p>
+    <p className="control-note">{sourcesChecked[language]} {evidenceScope[language]}</p>
     <h3>{t('Reproducibility', 'Tekrarlanabilirlik')}</h3>
     <p>{t('JSON exports include seed, all model versions, initial parameters and ordered tick-stamped interventions. Import recomputes the state from tick zero and pauses. Tick limits: 36,000; imports: 2 MB, 200 interventions and 36 million agent-ticks. Floating-point identity is tested within the same runtime; future engines are not guaranteed bitwise identical.', 'JSON dışa aktarımları seed, model sürümleri, başlangıç parametreleri ve sıralı, tick damgalı müdahaleleri içerir. İçe aktarım durumu sıfırdan hesaplar ve duraklatır. Sınırlar: 36.000 tick; içe aktarımda 2 MB, 200 müdahale ve 36 milyon arı-tick. Aynı çalışma ortamında eşitlik testlidir; gelecekteki motorlarda bit düzeyinde eşitlik garanti edilmez.')}</p>
     <p>{t('The communication view shows up to 30 model seconds of recent recruitment from a journal limited to 250 events. Dots on the outer ring represent participants now outside the hive. Contour lines and flower illustrations are visual context; patch circles define the resource extent, with a 28-unit sensor margin.', 'İletişim görünümü 250 olayla sınırlı günlükten en fazla 30 model saniyelik son katılımları gösterir. Dış halkadaki noktalar artık kovan dışında olan katılımcılardır. Eş yükselti çizgileri ve çiçekler görsel bağlamdır; kaynak dairelerinin çevresinde 28 birimlik algılama payı vardır.')}</p>

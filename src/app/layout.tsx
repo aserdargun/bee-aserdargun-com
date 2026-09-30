@@ -5,6 +5,7 @@ import '@fontsource/dm-sans/600.css';
 import '@fontsource/dm-mono/400.css';
 import './globals.css';
 import './education.css';
+import { evidence, evidenceScope, sourcesChecked } from '../experiments/evidence';
 export const metadata: Metadata = {
   metadataBase: new URL('https://bee.aserdargun.com'),
   title: 'BEE - Honey Bee Collective Intelligence Laboratory',
@@ -57,6 +58,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               effect estimate. Results are not field evidence and do not predict
               real colony behaviour.
             </p>
+            <p>{sourcesChecked.en} {evidenceScope.en}</p>
+            <ul>
+              {evidence.map(paper => <li key={paper.id}>
+                <a href={paper.url}>{paper.year} — {paper.title}</a>
+                <br />{paper.note.en}
+              </li>)}
+            </ul>
+            <p lang="tr">
+              {sourcesChecked.tr} {evidenceScope.tr}
+            </p>
+            <ul lang="tr">
+              {evidence.map(paper => <li key={paper.id}>
+                <a href={paper.url}>{paper.year} — {paper.title}</a>
+                <br />{paper.note.tr}
+              </li>)}
+            </ul>
           </div>
         </noscript>
         {children}

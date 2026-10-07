@@ -1,8 +1,8 @@
 import type { Localized } from './catalog';
 /**
- * The date the three primary sources below were last opened, and the boundary
- * that always travels with them. Kept here so the field-notes dialog, the
- * visible summary and the no-JS summary cannot drift apart. The date is a real
+ * The date the primary sources below were last opened, and the boundary that
+ * always travels with them. Kept here so the field-notes dialog, the visible
+ * summary and the no-JS summary cannot drift apart. The date is a real
  * editorial check; it is never recomputed at runtime.
  */
 export const sourcesChecked: Localized = {
@@ -21,3 +21,21 @@ export const evidence: { id: string; title: string; year: number; url: string; n
   { id: 'context2019', year: 2019, title: 'Honeybees forage more successfully without the “dance language” in challenging environments',
     url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC6374110/', note: { tr: 'Bu çalışma belirli bir çevrede dans yönelimini bozdu. BEE katılımı tamamen kapatır; kontrolü o müdahalenin tekrarı veya dansın evrensel üstünlüğünün kanıtı değildir.', en: 'This study disrupted dance orientation in a particular environment. BEE disables recruitment entirely; its control is not a replication of that treatment or evidence of a universal dance advantage.' } },
 ];
+/**
+ * The compact stamp beside the experiment heading. Its count is taken from the
+ * list above and its date from `checkedDate`, so it cannot claim a fourth
+ * source while the summary it links to lists three, or a stale date after the
+ * editorial check moves.
+ */
+const checkedDate: Record<'en' | 'tr', string> = {
+  en: '21 September 2026',
+  tr: '21 Eylül 2026',
+};
+const countLabel = (n: number) => ({
+  en: `${n} source${n === 1 ? '' : 's'} checked`,
+  tr: `${n} kaynak kontrol edildi`,
+});
+export const sourcesCheckedCompact = {
+  en: `${countLabel(evidence.length).en} · ${checkedDate.en}`,
+  tr: `${countLabel(evidence.length).tr} · ${checkedDate.tr}`,
+} satisfies Localized;

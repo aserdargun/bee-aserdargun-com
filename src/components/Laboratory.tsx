@@ -5,6 +5,7 @@ import { manifest, experiments as ilsExperiments, initialRoute } from '../ils/ca
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, BarChart3, Download, Eye, FlaskConical, Flower2, GitBranch, Hexagon, MessageCircle, Pause, Play, RotateCcw, StepForward, Upload } from 'lucide-react';
 import { experiments, experimentConfig, type Language } from '../experiments/catalog';
+import { sourcesCheckedCompact } from '../experiments/evidence';
 import { defaultConfig } from '../simulation/config';
 import { validateRun } from '../simulation/validation';
 import type { ExperimentRun, SimulationConfig } from '../simulation/types';
@@ -97,7 +98,7 @@ export function Laboratory() {
       <div className="language-switch" aria-label={t('Language', 'Dil')}><button aria-pressed={language === 'tr'} onClick={() => setLanguage('tr')}>TR</button><span>/</span><button aria-pressed={language === 'en'} onClick={() => setLanguage('en')}>EN</button></div>
     </header>
     <main id="laboratory" tabIndex={-1} inert={lab.importing} aria-busy={lab.importing}>
-      <div className="title-band"><div><h1>{experiment.title[language]}</h1><p>{experiment.goal[language]}</p></div><div className="experiment-meta"><span>{experiment.id}</span><span className="control-caption"><i>Apis mellifera</i> · {t('Abstract model', 'Soyut model')}<TermHelp term="collective" language={language} /></span><a className="control-caption evidence-stamp" href="#evidence-summary-title">{t('3 sources checked', '3 kaynak kontrol edildi')} · {t('21 Sep 2026', '21 Eylül 2026')}</a></div></div>
+      <div className="title-band"><div><h1>{experiment.title[language]}</h1><p>{experiment.goal[language]}</p></div><div className="experiment-meta"><span>{experiment.id}</span><span className="control-caption"><i>Apis mellifera</i> · {t('Abstract model', 'Soyut model')}<TermHelp term="collective" language={language} /></span><a className="control-caption evidence-stamp" href="#evidence-summary-title">{sourcesCheckedCompact[language]}</a></div></div>
       {lab.error && <div className="notice error" role="alert">{t('The simulation could not complete this action. Reset the experiment to retry.', 'Simülasyon bu işlemi tamamlayamadı. Yeniden denemek için deneyi sıfırlayın.')} <small>{lab.error}</small><button onClick={() => reset(baseConfig)}>{t('Reset experiment', 'Deneyi sıfırla')}</button></div>}
       {!world || !control ? <div className="loading-world" role="status"><Hexagon size={40} strokeWidth={1} /><p>{t('Waking the colony…', 'Koloni hazırlanıyor…')}</p></div> : <>
         <div className={`laboratory-grid ${compare ? 'is-comparing' : ''}`}>

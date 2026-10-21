@@ -1,4 +1,4 @@
-import { WORLD, type Bee, type Vec, type WorldSnapshot } from '../simulation/types';
+import { MODEL, WORLD, type Bee, type Vec, type WorldSnapshot } from '../simulation/types';
 export type ViewMode = 'landscape' | 'dance' | 'communication';
 export interface Camera { zoom: number; x: number; y: number }
 export const COLORS = { ink: '#29332f', sage: '#5f7665', amber: '#bd8638', blue: '#6e8caa', paper: '#f7f5ee', muted: '#738077' };
@@ -120,7 +120,7 @@ function drawHiveFloor(ctx: CanvasRenderingContext2D, snapshot: WorldSnapshot, o
 }
 
 function drawCommunication(ctx: CanvasRenderingContext2D, snapshot: WorldSnapshot) {
-  const recent = snapshot.events.filter(e => e.type === 'recruitment' && e.tick > snapshot.tick - 300).slice(-45);
+  const recent = snapshot.events.filter(e => e.type === 'recruitment' && e.tick > snapshot.tick - MODEL.communicationHistoryTicks).slice(-45);
   for (const event of recent) {
     const observer = snapshot.bees.find(b => b.id === event.beeId), dancer = snapshot.bees.find(b => b.id === event.otherBeeId);
     if (!observer || !dancer) continue;

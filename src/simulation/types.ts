@@ -74,3 +74,36 @@ export const VERSIONS: Versions = {
 };
 export const WORLD = { width: 1000, height: 680, hive: { x: 470, y: 340 }, hiveRadius: 34,
   sensorRadius: 28, contactRadius: 30, speed: 3.2, tickSeconds: 0.1 } as const;
+/**
+ * The model constants the laboratory publishes in prose.
+ *
+ * Each of these used to be a literal in the implementation and a second,
+ * hand-written literal in the published copy that states it. A retune of the
+ * model would then leave the field notes describing a rule the model no longer
+ * follows, with every test still green. They are named here once, so the
+ * implementation and the published number are checked against the same value.
+ */
+export const MODEL = {
+  /** Ticks of delivery history the intake rate and its chart cover. */
+  throughputWindowTicks: 600,
+  /** Ticks of recruitment history the communication view draws. */
+  communicationHistoryTicks: 300,
+  /** Events the run journal keeps before the oldest are dropped. */
+  eventJournalLimit: 250,
+  /** Divisor that turns an advertised distance into the published duration code. */
+  durationCodeDivisor: 250,
+  /** Travel discount applied to the reward, per unit of distance, each way. */
+  utilityDistanceDiscount: 0.0015,
+  /** Ceiling on the probability that a dance observation is accepted. */
+  recruitmentProbabilityCap: 0.95,
+  /** Longest run the laboratory computes, in ticks. */
+  maxTicks: 36_000,
+  /** Most interventions one run may record. */
+  maxInterventions: 200,
+  /** Most agent-ticks one imported run may replay. */
+  maxAgentTicks: 36_000_000,
+  /** Largest run import the laboratory accepts, in bytes. */
+  maxImportBytes: 2_000_000,
+  /** Largest stored run history the laboratory reads back, in bytes. */
+  historyBytes: 2_000_000,
+} as const;

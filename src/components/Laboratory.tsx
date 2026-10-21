@@ -8,7 +8,7 @@ import { experiments, experimentConfig, type Language } from '../experiments/cat
 import { sourcesCheckedCompact } from '../experiments/evidence';
 import { defaultConfig } from '../simulation/config';
 import { validateRun } from '../simulation/validation';
-import type { ExperimentRun, SimulationConfig } from '../simulation/types';
+import { MODEL, type ExperimentRun, type SimulationConfig } from '../simulation/types';
 import type { ViewMode } from '../rendering/canvas';
 import { useLaboratory } from './useLaboratory';
 import { WorldCanvas } from './WorldCanvas';
@@ -58,7 +58,7 @@ export function Laboratory() {
     try {
       const lang = localStorage.getItem('bee-language'); if (!route.locale && (lang === 'tr' || lang === 'en')) setLanguage(lang);
       const raw = localStorage.getItem('bee-history-v1');
-      if (raw && raw.length < 2_000_000) {
+      if (raw && raw.length < MODEL.historyBytes) {
         const saved: unknown = JSON.parse(raw);
         if (Array.isArray(saved)) setHistory(saved.slice(0, 8).filter(run => { try { validateRun(run); return true; } catch { return false; } }));
       }
@@ -86,7 +86,7 @@ export function Laboratory() {
   const onFile = async (file?: File) => {
     if (fileRef.current) fileRef.current.value = '';
     if (!file) return;
-    if (file.size > 2_000_000) { setNotice('tooLarge'); return; }
+    if (file.size > MODEL.maxImportBytes) { setNotice('tooLarge'); return; }
     try { importRun(JSON.parse(await file.text())); } catch { setNotice('unreadable'); }
     if (fileRef.current) fileRef.current.value = '';
   };
@@ -116,9 +116,9 @@ export function Laboratory() {
               <div className="compare-results"><div><span>{t('Collected food', 'Toplanan besin')}</span><strong>{world.metrics.foodCollected.toFixed(1)} <span>/</span> {control.metrics.foodCollected.toFixed(1)}</strong></div><div><span>{t('Difference in this model', 'Bu modeldeki fark')}</span><strong>{control.metrics.foodCollected > 0 ? `${((world.metrics.foodCollected / control.metrics.foodCollected - 1) * 100).toFixed(1)}%` : '—'}</strong></div><p>{t('Experimental / control. Uninformed non-scouts wait when dance is off. This is a paired model run, not a biological effect estimate. Repeat at equal ticks with several seeds.', 'Deney / kontrol. Dans kapalıyken bilgisiz, keşifçi olmayan arılar bekler. Bu eşlenik model koşusu biyolojik etki tahmini değildir. Eşit tick sayısında birkaç seed ile tekrarlayın.')}</p></div>
             </div>}
             <div className="playback-toolbar">
-              <LabControlButton action={lab.playing ? 'pause' : 'play'} capabilities={manifest.capabilities} locale={language} aria-label={lab.playing ? t('Pause', 'Duraklat') : t('Run', 'Çalıştır')} className="play-button" disabled={world.tick >= 36000} onClick={() => lab.send({ type: 'play', playing: !lab.playing })}>{lab.playing ? <Pause size={16} /> : <Play size={16} />}{lab.playing ? t('Pause', 'Duraklat') : t('Run', 'Çalıştır')}</LabControlButton>
+              <LabControlButton action={lab.playing ? 'pause' : 'play'} capabilities={manifest.capabilities} locale={language} aria-label={lab.playing ? t('Pause', 'Duraklat') : t('Run', 'Çalıştır')} className="play-button" disabled={world.tick >= MODEL.maxTicks} onClick={() => lab.send({ type: 'play', playing: !lab.playing })}>{lab.playing ? <Pause size={16} /> : <Play size={16} />}{lab.playing ? t('Pause', 'Duraklat') : t('Run', 'Çalıştır')}</LabControlButton>
               <div className="speed-controls" role="group" aria-label={t('Simulation speed', 'Simülasyon hızı')}>{([1, 5, 20] as const).map(s => <button key={s} aria-pressed={lab.speed === s} className={lab.speed === s ? 'active' : ''} onClick={() => lab.changeSpeed(s)}>{s}×</button>)}</div>
-              <LabControlButton action="step" capabilities={manifest.capabilities} locale={language} className="step-button" disabled={world.tick >= 36000} onClick={() => lab.send({ type: 'step' })}><StepForward size={16} />{t('Step', 'Adım')}</LabControlButton>
+              <LabControlButton action="step" capabilities={manifest.capabilities} locale={language} className="step-button" disabled={world.tick >= MODEL.maxTicks} onClick={() => lab.send({ type: 'step' })}><StepForward size={16} />{t('Step', 'Adım')}</LabControlButton>
               <LabControlButton action="reset" capabilities={manifest.capabilities} locale={language} className="reset-button" aria-label={t('Reset simulation', 'Simülasyonu sıfırla')} onClick={() => reset(baseConfig)}><RotateCcw size={16} /><span>{t('Reset', 'Sıfırla')}</span></LabControlButton>
               <LabControlButton action="compare" capabilities={manifest.capabilities} locale={language} className={`compare-button ${compare ? 'active' : ''}`} aria-pressed={compare} onClick={() => setCompare(!compare)}><BarChart3 size={16} />{t('Compare', 'Karşılaştır')}</LabControlButton>
               <TermHelp term="comparison" language={language} />
@@ -127,7 +127,7 @@ export function Laboratory() {
           </section>
           <ColonyInspector world={world} language={language} selected={selected} onSelect={id => { setSelected(id); if (id === null) setFollow(false); }} follow={follow} onFollow={() => setFollow(!follow)} />
         </div>
-        {world.tick >= 36000 && <p className="notice" role="status">{t('Run complete: the 36,000-tick limit has been reached. Export your results or reset to start again.', 'Koşu tamamlandı: 36.000 tick sınırına ulaşıldı. Sonuçları dışa aktarın veya yeniden başlamak için sıfırlayın.')}</p>}
+        {world.tick >= MODEL.maxTicks && <p className="notice" role="status">{t('Run complete: the 36,000-tick limit has been reached. Export your results or reset to start again.', 'Koşu tamamlandı: 36.000 tick sınırına ulaşıldı. Sonuçları dışa aktarın veya yeniden başlamak için sıfırlayın.')}</p>}
         <div className="learning-band"><div className="learning-steps"><span><Eye />{t('Observe', 'Gözle')}</span><ArrowRight /><span><MessageCircle />{t('Predict', 'Öngör')}</span><ArrowRight /><span><Play />{t('Run', 'Çalıştır')}</span><ArrowRight /><span><BarChart3 />{t('Measure', 'Ölç')}</span></div><div className="interpretation">{prediction !== null && <strong>{t('Your prediction: ', 'Tahmininiz: ')}{experiment.predictions[prediction][language]}</strong>}<p>{experiment.explanation[language]}</p></div></div>
         <div className="run-details"><span className="mono">Seed {world.config.seed} · {t('Model', 'Model')} 0.1.0</span><label htmlFor="population">{t('Population · new run', 'Arı sayısı · yeni koşu')}<select id="population" value={baseConfig.population} onChange={e => { setPrediction(null); reset({ ...baseConfig, population: Number(e.target.value) }); }}>{[100,160,500,1000,...(![100,160,500,1000].includes(baseConfig.population) ? [baseConfig.population] : [])].map(n => <option key={n} value={n}>{n}</option>)}</select></label><span className="control-caption"><label><input type="checkbox" checked={debug} onChange={e => setDebug(e.target.checked)} />{t('Inspect signals & performance', 'Sinyal ve performansı incele')}</label><TermHelp term="performance" language={language} /></span>{debug && <span className="mono" data-testid="worker-timing">{lab.workerTicks ? `${lab.workerMs.toFixed(2)} ms / ${lab.workerTicks} ${t(lab.workerTicks === 1 ? 'paired tick' : 'paired ticks', 'eşlenik tick')}` : t('Worker timing: awaiting step', 'İşlem süresi: adım bekleniyor')}</span>}</div>
       </>}

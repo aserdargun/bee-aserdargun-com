@@ -3,6 +3,7 @@ import { Simulation } from './kernel';
 import { defaultConfig } from './config';
 import { replayRun } from './run';
 import { validateRun } from './validation';
+import { MODEL } from './types';
 import type { Intervention } from './types';
 import type { WorkerRequest, WorkerResponse } from './protocol';
 
@@ -27,7 +28,7 @@ scope.onmessage = ({ data }: MessageEvent<WorkerRequest>) => {
       }
       case 'play': playing = data.playing; publish(); break;
       case 'speed': if (![1, 5, 20].includes(data.speed)) throw new Error('Unsupported speed'); speed = data.speed; break;
-      case 'step': playing = false; if (main.tickCount < 36000) advance(1); publish(); break;
+      case 'step': playing = false; if (main.tickCount < MODEL.maxTicks) advance(1); publish(); break;
       case 'intervene': {
         const tick = main.tickCount;
         const command = { ...data.command, tick } as Intervention;
@@ -50,7 +51,7 @@ scope.onmessage = ({ data }: MessageEvent<WorkerRequest>) => {
 // Completed fixed ticks define model time. Rendering and wall-clock delays never enter the kernel.
 setInterval(() => {
   if (!playing) return;
-  if (main.tickCount >= 36000) { playing = false; publish(); return; }
-  const ticks = Math.min(speed, 36000 - main.tickCount);
+  if (main.tickCount >= MODEL.maxTicks) { playing = false; publish(); return; }
+  const ticks = Math.min(speed, MODEL.maxTicks - main.tickCount);
   advance(ticks); publish();
 }, 100);

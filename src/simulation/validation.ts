@@ -1,4 +1,4 @@
-import { VERSIONS, WORLD, type ExperimentRun, type Intervention, type SimulationConfig } from './types';
+import { VERSIONS, WORLD, MODEL, type ExperimentRun, type Intervention, type SimulationConfig } from './types';
 
 function record(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Expected an object');
@@ -58,10 +58,10 @@ export function validateRun(value: unknown): asserts value is ExperimentRun {
   if (run.schemaVersion !== 1 || run.lab !== 'BEE' || run.species !== 'Apis mellifera') throw new Error('Unsupported BEE run');
   for (const [key, version] of Object.entries(VERSIONS)) if (run[key] !== version) throw new Error(`Unsupported ${key}`);
   validateConfig(run.parameters);
-  number(run.tickCount, 0, 36000, true);
+  number(run.tickCount, 0, MODEL.maxTicks, true);
   if (run.seed !== run.parameters.seed) throw new Error('Seed mismatch');
-  if (run.parameters.population * (run.tickCount as number) > 36_000_000) throw new Error('Replay exceeds work limit');
-  if (!Array.isArray(run.interventions) || run.interventions.length > 200) throw new Error('Invalid intervention log');
+  if (run.parameters.population * (run.tickCount as number) > MODEL.maxAgentTicks) throw new Error('Replay exceeds work limit');
+  if (!Array.isArray(run.interventions) || run.interventions.length > MODEL.maxInterventions) throw new Error('Invalid intervention log');
   let previous = 0;
   for (const command of run.interventions) {
     validateIntervention(command, run.tickCount as number);

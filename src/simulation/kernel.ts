@@ -1,7 +1,7 @@
 import { RuleBasedBeeBrain } from './brain';
 import { randomFrom, seedFor } from './random';
 import { defaultConfig } from './config';
-import { WORLD, VERSIONS, type Bee, type BeeBrain, type DanceSignal, type ExperimentRun, type FoodPatch,
+import { WORLD, VERSIONS, MODEL, type Bee, type BeeBrain, type DanceSignal, type ExperimentRun, type FoodPatch,
   type Intervention, type LocalObservation, type MetricPoint, type Metrics, type ResourceMemory,
   type SimulationConfig, type SimulationEvent, type Vec, type WorldSnapshot } from './types';
 import { validateConfig, validateIntervention, validateRun } from './validation';
@@ -59,7 +59,8 @@ export class Simulation {
 
   private emit(event: Omit<SimulationEvent, 'tick'>): void {
     this.events.push({ tick: this.tick, ...event });
-    if (this.events.length > 250) this.events.splice(0, this.events.length - 250);
+    if (this.events.length > MODEL.eventJournalLimit)
+      this.events.splice(0, this.events.length - MODEL.eventJournalLimit);
   }
 
   /** Only a distance-limited sensor and hive contacts cross this boundary. */
@@ -84,7 +85,7 @@ export class Simulation {
     const availableSignals = this.signals.slice(); // A dance cannot recruit another bee in its creation tick.
     for (const patch of this.patches) if (patch.active) patch.amount = Math.min(patch.capacity, patch.amount + patch.regeneration);
     for (const bee of this.bees) this.updateBee(bee, availableSignals);
-    this.recentDeliveries = this.recentDeliveries.filter(d => d.tick > this.tick - 600);
+    this.recentDeliveries = this.recentDeliveries.filter(d => d.tick > this.tick - MODEL.throughputWindowTicks);
     if (this.tick % 20 === 0) this.recordHistory();
   }
 
@@ -143,7 +144,7 @@ export class Simulation {
     if (bee.state === 'ObservingDance') {
       if (--bee.timer > 0) return;
       const signal = bee.observedSignal;
-      const probability = signal ? clamp(this.config.behavior.recruitmentStrength * signal.utility * signal.confidence, 0, 0.95) : 0;
+      const probability = signal ? clamp(this.config.behavior.recruitmentStrength * signal.utility * signal.confidence, 0, MODEL.recruitmentProbabilityCap) : 0;
       if (this.config.behavior.recruitment && signal && signal.expiresAt > this.tick && this.random(bee) < probability) {
         const noise = this.config.behavior.danceNoise;
         const angle = signal.direction + (this.random(bee) * 2 - 1) * noise * 0.65;
@@ -209,7 +210,7 @@ export class Simulation {
         this.recentDeliveries.push({ tick: this.tick, value: reward }); bee.delivered += reward; bee.experience++;
         this.emit({ type: 'delivery', beeId: bee.id, patchId: bee.cargoPatch, value: reward });
         const target = bee.target;
-        const utility = target ? reward / (1 + 0.0015 * 2 * distance(WORLD.hive, target)) : 0;
+        const utility = target ? reward / (1 + MODEL.utilityDistanceDiscount * 2 * distance(WORLD.hive, target)) : 0;
         if (this.config.behavior.recruitment && target && this.random(bee) < clamp(utility * 1.8, 0, 0.9)) {
           const duration = Math.round(70 + 160 * utility);
           const d = distance(WORLD.hive, target);
@@ -218,7 +219,7 @@ export class Simulation {
             patchId: target.patchId, target: { x: target.x, y: target.y },
             direction: Math.atan2(target.y - WORLD.hive.y, target.x - WORLD.hive.x), distance: d,
             quality: bee.cargoQuality, utility, confidence: 1 - this.config.behavior.danceNoise * 0.4,
-            durationCode: d / 250, createdAt: this.tick, expiresAt: this.tick + duration,
+            durationCode: d / MODEL.durationCodeDivisor, createdAt: this.tick, expiresAt: this.tick + duration,
           };
           this.signals.push(signal); bee.state = 'Dancing'; bee.timer = duration; this.counters.dances++;
           this.emit({ type: 'dance', beeId: bee.id, patchId: target.patchId, value: utility });
@@ -231,7 +232,8 @@ export class Simulation {
 
   intervene(command: Intervention): void {
     validateIntervention(command, this.tick);
-    if (this.interventions.length >= 200) throw new Error('The run has reached its 200 intervention limit. Start a new run.');
+    if (this.interventions.length >= MODEL.maxInterventions)
+      throw new Error(`The run has reached its ${MODEL.maxInterventions} intervention limit. Start a new run.`);
     if (command.tick !== this.tick) throw new Error('Intervention tick must match current tick');
     const next = clone(this.config);
     if (command.type === 'behavior') {
@@ -263,7 +265,7 @@ export class Simulation {
       if (!inside && bee.target && bee.state !== 'Searching') allocation[bee.target.patchId]++;
       if (!inside && bee.recruited) recruitedForagers++;
     }
-    const minutes = Math.min(this.tick, 600) * WORLD.tickSeconds / 60;
+    const minutes = Math.min(this.tick, MODEL.throughputWindowTicks) * WORLD.tickSeconds / 60;
     return {
       foodCollected: this.totalFood,
       throughput: minutes ? this.recentDeliveries.reduce((sum, d) => sum + d.value, 0) / minutes : 0,
